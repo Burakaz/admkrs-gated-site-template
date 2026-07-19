@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creative Strategy als Prozess – ADMKRS Creative Strategy Suite</title>
+<meta name="description" content="Creative Strategy Schritt für Schritt erklärt: das Warum hinter jedem Schritt, wie es bei ADMKRS abläuft, welcher der 17 Skills greift und die typische Anfänger-Falle.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090A; --panel:#0E0E10; --ink:#ECEAE4; --soft:#C9C5BC; --muted:#86837C;
+  --line:rgba(236,234,228,.09); --line-2:rgba(236,234,228,.06);
+  --card:rgba(255,255,255,.022); --card-bd:rgba(236,234,228,.09);
+  --accent:#C6FF3A; --accent-soft:rgba(182,244,0,.12); --neon-2:#B6F400; --neon-grad:linear-gradient(100deg,#C6FF3A 0%,#B6F400 38%,#34D058 100%); --neon-glow:rgba(182,244,0,.32); --lime:#34D058; --good:#8BE08B; --warn:#FF8458;
+  --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --r:16px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;font-feature-settings:"cv11","ss01";letter-spacing:-0.011em}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(900px 520px at 88% -8%,rgba(182,244,0,.13),transparent 62%),
+             radial-gradient(760px 460px at 2% 8%,rgba(52,208,88,.05),transparent 58%)}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(182,244,0,.28)}
+.wrap{position:relative;z-index:1;max-width:1460px;margin:0 auto;padding:0 clamp(22px,5vw,40px)}
+
+/* ===== shell: Sidebar + Content (einheitliches Layout aller Seiten) ===== */
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:272px minmax(0,1fr);max-width:1460px;margin:0 auto}
+.side{position:sticky;top:60px;height:calc(100vh - 60px);display:flex;flex-direction:column;
+  padding:28px 22px 24px 34px;border-right:1px solid var(--line)}
+.s-tag{font-size:12px;color:var(--muted);letter-spacing:.01em}
+.main-pad{padding:0 clamp(24px,4vw,64px);min-width:0}
+.s-cta{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  font-size:12.5px;font-weight:600;color:var(--soft);border:1px solid var(--card-bd);border-radius:100px;
+  padding:9px 15px;white-space:nowrap;transition:.2s}
+.s-cta .arr{color:var(--accent);transition:transform .2s}
+.s-cta:hover{color:var(--ink);border-color:var(--ink)}
+.s-cta:hover .arr{transform:translateX(2px)}
+@media(max-width:920px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 18px}
+  .s-tag,.s-cta{display:none}
+}
+
+/* top - globale Menüleiste (identisch auf allen Seiten) */
+.gnav{position:sticky;top:0;z-index:50;background:rgba(9,9,10,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.gnav-in{position:relative;display:flex;align-items:center;gap:14px;height:60px;max-width:1460px;margin:0 auto;padding:0 clamp(18px,4vw,34px)}
+.gnav .brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.05em;font-size:15px}
+.gnav .brand .mk{color:var(--accent)}
+.gnav .ver{font-size:10.5px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:2px 8px;letter-spacing:.02em}
+.gnav-links{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:100px;padding:4px}
+.gnav-links a{white-space:nowrap;font-size:13px;font-weight:600;color:var(--muted);padding:6px 15px;border-radius:100px;transition:color .2s,background .2s}
+.gnav-links a:hover{color:var(--ink)}
+.gnav-links a.on{color:var(--ink);background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(182,244,0,.32)}
+.gnav-cta{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--bg);background:var(--ink);border-radius:100px;padding:8px 15px;transition:.2s}
+.gnav-cta:hover{background:var(--accent);color:#0a0f02;box-shadow:0 0 20px var(--neon-glow)}
+@media(max-width:1060px){.gnav-links{position:static;transform:none;margin-left:auto}.gnav-cta{margin-left:0}}
+@media(max-width:820px){.gnav-cta{display:none}.gnav-links a{padding:6px 11px;font-size:12.5px}}
+@media(max-width:460px){.gnav .ver{display:none}.gnav .brand{font-size:13.5px}}
+
+/* hero */
+header{padding:clamp(44px,7vh,76px) 0 18px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--accent);text-transform:uppercase}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);opacity:.6}
+h1{font-weight:800;letter-spacing:-.04em;line-height:1.0;font-size:clamp(38px,6vw,72px);margin:20px 0 0}
+h1 em{font-style:normal;background:var(--neon-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--accent)}
+.lede{max-width:720px;margin:24px 0 0;font-size:clamp(16px,1.7vw,19px);color:var(--soft)}
+
+/* intro / legend */
+.intro{border:1px solid var(--card-bd);background:var(--card);border-radius:var(--r);padding:22px 24px;margin:26px 0 0}
+.intro .lbl{margin:0}
+.intro p{margin:9px 0 0;font-size:15px;color:var(--soft);max-width:840px;line-height:1.62}
+.intro b{color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:9px 20px;margin:18px 0 2px}
+.lg{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--soft)}
+.lg .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.lg i{color:var(--muted);font-style:normal;font-size:11.5px}
+
+/* panels-bereich */
+#panels{padding:30px 0 72px}
+
+/* stepper (lebt in der Sidebar) */
+.stepper{display:flex;flex-direction:column;gap:2px;margin-top:26px;flex:1;overflow-y:auto;scrollbar-width:none}
+.stepper::-webkit-scrollbar{display:none}
+@media(max-width:920px){.stepper{margin-top:0;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:2px}}
+.step{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:12px;border:1px solid transparent;
+  cursor:pointer;transition:.2s;color:var(--muted);text-align:left;background:none;font-family:inherit;width:100%}
+@media(max-width:920px){.step{flex:none;width:auto;white-space:nowrap;padding:8px 12px}}
+.step:hover{color:var(--soft);background:rgba(255,255,255,.02)}
+.step.active{color:var(--ink);background:var(--accent-soft);border-color:rgba(182,244,0,.3)}
+.step .sn{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:800;
+  border:1px solid var(--line);color:var(--muted);transition:.2s}
+.step.active .sn{color:var(--accent);border-color:rgba(182,244,0,.4);background:rgba(182,244,0,.08)}
+.step .stt{font-size:13.5px;font-weight:600;line-height:1.25}
+.step .sph{display:block;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.02em}
+@media(max-width:920px){.step .sph{display:none}}
+
+/* panel */
+.panel{display:none;animation:fade .4s cubic-bezier(.2,.7,.2,1)}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.p-eyebrow{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.06em}
+.p-title{font-weight:800;letter-spacing:-.03em;font-size:clamp(26px,3.6vw,40px);line-height:1.05;margin:8px 0 0}
+.p-title .thin{color:var(--muted);font-weight:500}
+
+/* shared label */
+.lbl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.lbl.section{display:block;margin:32px 0 0}
+
+/* goal */
+.p-goal{display:flex;gap:11px;align-items:baseline;margin:18px 0 0;max-width:840px}
+.p-goal .goal-t{flex:none;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+  border:1px solid rgba(182,244,0,.35);border-radius:100px;padding:4px 10px;position:relative;top:-1px}
+.p-goal span:last-child{font-size:17.5px;color:var(--ink);font-weight:600;letter-spacing:-.012em;line-height:1.4}
+.p-was{margin:16px 0 0;font-size:15.5px;color:var(--soft);max-width:840px}
+
+/* why block */
+.why{border:1px solid var(--line);background:rgba(255,255,255,.018);border-left:2px solid var(--accent);
+  border-radius:0 12px 12px 0;padding:15px 20px;margin:20px 0 0;max-width:880px}
+.why p{margin:7px 0 0;font-size:14.5px;color:var(--soft);line-height:1.62}
+.why b{color:var(--ink)}
+
+/* ablauf */
+.ablauf{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:9px;max-width:940px}
+.ab{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--card-bd);background:var(--card);border-radius:13px;padding:13px 16px}
+.ab-n{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:12.5px;font-weight:800;
+  color:var(--muted);border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.ab-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.ab-role{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--soft)}
+.ab-role .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.ab-act{font-size:13.5px;color:var(--soft);line-height:1.5}
+.ab-act b{color:var(--ink);font-weight:700}
+
+/* skill cards in panel */
+.sk-cards{display:flex;flex-direction:column;gap:14px;margin:12px 0 0}
+.sk{border:1px solid var(--card-bd);background:var(--card);border-radius:var(--r);padding:22px 24px}
+.sk-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sk-name{font-family:var(--mono);font-size:14.5px;color:var(--ink)}
+.sk-name .slash{color:var(--accent)}
+.sk-role{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:3px 9px}
+.sk-role.lead{color:var(--accent);border-color:rgba(182,244,0,.35)}
+.sk p{margin:10px 0 0;font-size:14px;color:var(--soft);line-height:1.55}
+.sk-how{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:14px 0 0}
+.sk ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+.sk li{position:relative;padding-left:18px;font-size:13px;color:var(--soft);line-height:1.45}
+.sk li::before{content:"";position:absolute;left:3px;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+
+/* result box */
+.out{border:1px solid rgba(139,224,139,.24);background:rgba(139,224,139,.05);border-radius:13px;padding:15px 20px;margin:30px 0 0;max-width:880px}
+.out-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.out-l{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--good)}
+.out .feeds{font-size:12px;color:var(--muted);font-weight:500}
+.out p{margin:8px 0 0;font-size:14.5px;color:var(--ink);line-height:1.55}
+
+/* anfänger-falle */
+.falle{display:flex;gap:13px;border:1px solid rgba(255,132,88,.26);background:rgba(255,132,88,.06);
+  border-radius:13px;padding:15px 18px;margin:14px 0 0;font-size:14px;color:var(--soft);line-height:1.58;max-width:880px}
+.falle .ic{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;
+  color:var(--warn);border:1px solid rgba(255,132,88,.5)}
+.falle b{color:var(--ink)}
+
+/* Lehre callout */
+.lehre{display:flex;gap:13px;border:1px solid rgba(52,208,88,.22);background:rgba(52,208,88,.05);
+  border-radius:13px;padding:16px 18px;margin:14px 0 0;font-size:14.5px;color:var(--soft);line-height:1.55;max-width:880px}
+.lehre .ic{flex:none;color:var(--lime);font-weight:700}
+.lehre b{color:var(--ink)}
+
+/* NOVA running case */
+.nova{border:1px solid rgba(106,184,255,.24);background:rgba(106,184,255,.05);border-radius:13px;padding:15px 18px;margin:22px 0 0;max-width:880px}
+.nova .nv-l{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#6AB8FF}
+.nova p{margin:7px 0 0;font-size:14px;color:var(--soft);line-height:1.6}
+.nova b{color:var(--ink)}
+
+/* regel-box (wann urteilen) */
+.rulebox{border:1px solid rgba(198,255,58,.28);background:var(--accent-soft);border-radius:13px;padding:15px 18px;margin:14px 0 0;max-width:880px}
+.rulebox .rb-l{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+.rulebox p{margin:7px 0 0;font-size:14px;color:var(--soft);line-height:1.6}
+.rulebox b{color:var(--ink)}
+
+/* start-prompt (copy-pattern wie index.html) */
+.startline{position:relative;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:13px;padding:15px 100px 15px 18px;margin:12px 0 0;max-width:880px}
+.startline code{font-family:var(--mono);font-size:12.5px;color:var(--soft);line-height:1.7;word-break:break-word}
+.startline code .tok{color:var(--accent)}
+.copybtn{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:10.5px;color:var(--muted);
+  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;transition:.2s}
+.copybtn:hover{color:var(--ink);border-color:var(--ink)}
+
+/* rollen-schnellstart (sidebar) */
+.roles{margin-top:20px}
+.roles .r-l{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:9px}
+.rolechip{font-family:inherit;text-align:left;background:none;border:1px solid var(--card-bd);border-radius:10px;padding:7px 9px;cursor:pointer;color:var(--soft);transition:.2s;display:flex;flex-direction:column;gap:1px}
+.rolechip:hover{color:var(--ink);border-color:var(--ink)}
+.rolechip.on{border-color:rgba(182,244,0,.4);background:var(--accent-soft);color:var(--ink)}
+.rolechip .rt{font-size:11px;font-weight:700;letter-spacing:.01em}
+.rolechip .rs{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.rolechip.on .rs{color:var(--accent)}
+.step.hl .sn{border-color:rgba(182,244,0,.45);color:var(--accent)}
+@media(max-width:920px){.roles{margin:10px 0 12px}.role-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* eyebrow map-link */
+.p-eyebrow a{color:var(--muted);border-bottom:1px dotted rgba(236,234,228,.35);transition:.2s}
+.p-eyebrow a:hover{color:var(--ink)}
+
+/* panel footer nav */
+.p-nav{display:flex;justify-content:space-between;gap:12px;margin:30px 0 0;padding-top:18px;border-top:1px solid var(--line-2)}
+.p-nav button{font-family:inherit;font-size:13px;font-weight:600;color:var(--soft);background:none;border:1px solid var(--card-bd);
+  border-radius:100px;padding:9px 16px;cursor:pointer;transition:.2s}
+.p-nav button:hover{color:var(--ink);border-color:var(--ink)}
+.p-nav button:disabled{opacity:.3;cursor:default}
+
+/* flywheel / feedback */
+section.tail{border-top:1px solid var(--line);padding:56px 0}
+.tail h2{font-weight:800;letter-spacing:-.03em;font-size:clamp(24px,3.4vw,36px);margin:14px 0 12px}
+.tail p{color:var(--soft);max-width:720px;font-size:16px}
+.tail .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.tail .cards{grid-template-columns:1fr}}
+.tc{border:1px solid var(--card-bd);background:var(--card);border-radius:var(--r);padding:22px}
+.tc h3{font-weight:700;font-size:17px;margin:0 0 6px;letter-spacing:-.02em}
+.tc p{font-size:14px;color:var(--soft)}
+footer{border-top:1px solid var(--line);padding:40px 0 60px;color:var(--muted);font-size:13px}
+.foot-brand{font-weight:800;letter-spacing:.06em;color:var(--ink);font-size:17px}
+.foot-brand .mk{color:var(--accent)}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:var(--ink);color:var(--bg);font-weight:600;font-size:14px;padding:12px 20px;border-radius:100px;transition:.2s}
+.cta:hover{background:var(--accent)}
+</style>
+</head>
+<body>
+<nav class="gnav"><div class="gnav-in">
+  <a class="brand" href="index.html">ADMKRS<span class="mk">·</span>SUITE<span class="ver">v1.13.0</span></a>
+  <div class="gnav-links">
+    <a href="index.html">Guide</a>
+    <a href="flow.html">Ablauf</a>
+    <a href="prozess.html" class="on">Prozess</a>
+    <a href="styles.html">Ad-Styles</a>
+  </div>
+  <a class="gnav-cta" href="index.html#start">Suite aktivieren →</a>
+</div></nav>
+
+<div class="shell">
+  <aside class="side">
+    <div class="s-tag">Der Prozess · Schritt 0 + 8 Stationen</div>
+    <div class="roles"><div class="r-l">Schnellstart: Ich bin …</div><div class="role-grid" id="roleGrid"></div></div>
+    <div class="stepper" id="stepper"></div>
+    <a class="s-cta" href="styles.html">Ad-Style-Katalog<span class="arr">→</span></a>
+  </aside>
+  <main class="main-pad">
+<header>
+  <div class="eyebrow">Wie wir arbeiten</div>
+  <h1>Creative Strategy<br><em>als Prozess.</em></h1>
+  <p class="lede">Die 17 Skills sind kein Tool-Zoo. Sie bilden <b style="color:var(--ink)">unseren Creative-Strategy-Prozess</b> ab und führen dich Schritt für Schritt durch, auch wenn du Creative Strategy zum ersten Mal machst. Pro Schritt: das Ziel, das Warum dahinter, wie es bei ADMKRS konkret abläuft, welcher Skill greift und die typische Anfänger-Falle.</p>
+
+  <div class="intro">
+    <div class="lbl">So liest du diese Seite</div>
+    <p>Acht Stationen plus Schritt 0 (Neukunde gewinnen, einmalig davor), dieselbe Nummerierung wie auf der <a href="flow.html" style="color:var(--ink);border-bottom:1px dotted var(--muted)">Ablauf-Map</a>: Station 4 hier ist Station 4 dort. Jede Station liefert ein konkretes <b>Ergebnis</b>, das zum Input der nächsten wird. Die <b>Rolle</b> (farbiger Punkt) zeigt, wer im Team gerade dran ist; der <b>Skill</b> ist, was Claude in diesem Schritt beisteuert. In der Praxis deckt oft eine Person mit der Suite mehrere Rollen ab. Als durchgängiges Beispiel begleitet dich die fiktive Marke <b>NOVA</b> (Protein Coffee) durch alle Stationen. Klick dich links durch, oder spring über den Rollen-Schnellstart direkt zu deinen Stationen.</p>
+    <div class="legend">
+      <span class="lg"><span class="dot" style="background:#8B83FF"></span>Account <i>GF & Account · Kunde, Onboarding, Freigaben</i></span>
+      <span class="lg"><span class="dot" style="background:#C6FF3A"></span>Strategie <i>Creative Strategist · Research, Insight, Test-Plan</i></span>
+      <span class="lg"><span class="dot" style="background:#8BE08B"></span>Copy <i>Strategist/Copywriter · Hooks, Texte, Scripts</i></span>
+      <span class="lg"><span class="dot" style="background:#6AB8FF"></span>Design <i>Designer & Editor · Bild & Motion</i></span>
+      <span class="lg"><span class="dot" style="background:#FFC857"></span>Performance <i>Media Buyer · Daten, Launch, Skalierung</i></span>
+      <span class="lg"><span class="dot" style="background:#FF7A7A"></span>Compliance <i>Pre-Launch-Check</i></span>
+    </div>
+  </div>
+</header>
+
+<!-- PANELS -->
+<div id="panels"></div>
+
+<section class="tail">
+  <div class="eyebrow">Das Flywheel</div>
+  <h2>Jeder Durchlauf macht den nächsten besser.</h2>
+  <p>Creative Strategy ist kein einmaliges Projekt, sondern ein Kreislauf: Die Learnings aus dem Reporting fließen zurück in Research &amp; Diversity und werden zum Input der nächsten Runde. Genauso behandeln wir die Suite selbst.</p>
+  <div class="cards">
+    <div class="tc"><h3>Daten leiten</h3><p>Jede Entscheidung beginnt bei dem, was nachweislich zieht, nicht beim Bauchgefühl. Gewinner iterieren, Verlierer stoppen.</p></div>
+    <div class="tc"><h3>Vielfalt skaliert</h3><p>Unter Andromeda ist das Creative das Targeting. Echte Konzept-Vielfalt schlägt 30 Varianten desselben Bildes.</p></div>
+    <div class="tc"><h3>Feedback fließt zurück</h3><p>Haben wir im echten Einsatz etwas gelernt, fließt es in die Skills ein. Wir optimieren die Suite laufend mit, sie wird mit uns besser.</p></div>
+  </div>
+  <a class="cta" href="index.html#start">Suite aktivieren &amp; loslegen →</a>
+</section>
+  </main>
+</div>
+
+<footer><div class="wrap">
+  <div class="foot-brand">ADMKRS<span class="mk">·</span>SUITE</div>
+  <div style="margin-top:8px">Creative Strategy Suite · © 2026 ADMKRS GmbH, München · interner Gebrauch</div>
+</div></footer>
+
+<script>
+const ROLECLR = {
+  Account:"#8B83FF", Strategie:"#C6FF3A", Copy:"#8BE08B",
+  Design:"#6AB8FF", Performance:"#FFC857", Compliance:"#FF7A7A"
+};
+
+const STEPS = [
+  { ph:"Schritt 0", short:"Neukunde gewinnen", title:["Neukunde ", "gewinnen"],
+    goal:"Einen Prospect über sichtbare Findings statt Versprechen in einen unterschriebenen Kunden mit Kickoff verwandeln.",
+    was:"Bevor Strategie entsteht, muss die Brand erst mal da sein. Wir gewinnen Neukunden nicht über Behauptungen, sondern über einen geführten Audit: aus dem Account und der Meta Ad Library eines Prospects bauen wir eine Opportunity-Analyse. Ein kostenloser Teardown wird zum Sales-Asset.",
+    why:"Anfänger glauben, Neukunden gewinnt man mit einem schönen Capabilities-Deck und der Behauptung „wir machen gute Creatives“. Der teure Denkfehler: Du verkaufst dich gegen jede andere Agentur, die genau dasselbe behauptet, und der Prospect kann nichts davon prüfen. Du wirst zur austauschbaren Behauptung. Die Umkehrung: Du tauchst mit konkreten Beobachtungen aus seinem eigenen Markt auf, bevor du irgendwas verkaufst. Ein Teardown seiner Wettbewerber beweist Kompetenz, statt sie zu behaupten, und verschiebt das Gespräch von „Vertraust du mir?“ zu „Du hast offensichtlich verstanden, was bei uns läuft.“ Genau das ist der Punkt, an dem ein Prospect zum Kunden wird.",
+    ablauf:[
+      {role:"Account", action:"Prospect und seine 3 bis 5 nächsten Wettbewerber festlegen, dann mit creative-teardown deren Meta Ad Library ziehen und per 5-Signal-Longevity-Scoring scoren: welche Angles gewinnen im Markt, welche Hook-Kategorien sind gesättigt, wo ist White-Space."},
+      {role:"Strategie", action:"Aus den Findings mit pitch-teardown einen Free Teardown bauen: 3 bis 5 konkrete Ad-Library-Beobachtungen mit Evidenz, ein Opportunity-Framing und eine erste Angle-Hypothese. 30 bis 45 Minuten, Ziel ist systematisches Denken zeigen, nicht Vollständigkeit."},
+      {role:"Account", action:"Discovery-Call führen, 60 Prozent fragen, 40 Prozent zuhören: netto-neue Konzepte pro Monat, Hold-Rate bei Video, Erfolgsmetrik (MER, Blended-CAC oder nur Plattform-ROAS) und was schon getestet wurde und NICHT lief."},
+      {role:"Performance", action:"Mit Account-Zugang das Audit fahren: Creative-Velocity, fehlende Formate, ROAS-Plateau über 2+ Monate und Creative-Alter gegen die Switch-Signale aus pitch-teardown prüfen und die Umsatz-Lücke in Euro beziffern."},
+      {role:"Account", action:"Proposal in fester Reihenfolge bauen: Markt-Beobachtung, Gap-Diagnose Ist vs. Benchmark, 2 bis 3 Test-Hypothesen mit Warum, das System, Proof aus gleicher Vertikale, realistische 60-bis-90-Tage-Timeline, Investment. Dann Freigabe und Kickoff."}
+    ],
+    skills:[{n:"pitch-teardown", role:"führt", lead:true, p:"Gewinnt Neukunden über audit- & teardown-geführtes Selling.", pts:["Prospect-Account + Ad-Library auditieren","Free Teardown als Sales-Asset","Proposal & Pitch überzeugend strukturieren"]}],
+    output:"Ein unterschriebener Kunde plus Kickoff-Termin, gestützt auf einen Free Teardown, ein Account-Audit (bezifferte Umsatz-Lücke) und ein Proposal mit 2 bis 3 konkreten Test-Hypothesen.",
+    feeds:"Station 1: Audit & Onboarding.",
+    falle:"Den Free Teardown hinter dem Vertrag verstecken, also Insights gatekeepen, nur um zu verkaufen. Das wird 2026 sofort erkannt und wirkt wie ein Pitch, nicht wie ein Audit. Verschenk echten Wert, auch wenn der Prospect am Ende nicht unterschreibt, sonst verspielst du genau die Glaubwürdigkeit, die der Teardown aufbaut.",
+    lehre:"Zeig, was du siehst, bevor du pitchst. Ein konkreter Teardown überzeugt mehr als jedes Versprechen.",
+    nova:"<b>Free Teardown für NOVA (Protein Coffee):</b> In der Ad Library laufen die langlebigsten Wettbewerber-Ads fast alle auf dem Angle „Protein ohne Shake-Aufwand“, niemand besetzt „schmeckt wirklich nach Kaffee“. Opportunity-Framing im Proposal: der Geschmacks-Angle ist White-Space, erste Test-Hypothese inklusive.",
+    prompt:'<span class="tok">/admkrs-cs-pitch-teardown</span> - Free Teardown für unseren Prospect: anbei seine Meta-Ad-Library-Links und die 3 nächsten Wettbewerber.' },
+
+  { ph:"Station 1", short:"Audit", title:["Audit ", "& Onboarding"],
+    goal:"Die Brand verstehen und die Ist-Performance lesen, damit du weißt, was schon zieht, bevor du Neues baust.",
+    was:"Bevor wir kreieren, diagnostizieren wir. Wir verstehen die Brand (Onboarding), lesen die Performance-Daten und zerlegen die bisherigen Gewinner-Ads, eigene wie fremde. So wissen wir, was schon zieht, bevor wir Neues bauen.",
+    why:"Der teuerste Anfängerfehler ist, sofort zu kreieren: Du baust 10 Ads aus dem Bauch und merkst erst nach 2 Wochen Spend, dass die Brand schon einen Gewinner-Angle hatte, den du ignoriert hast, oder dass das Tracking gar nicht sauber feuert und deine „Winner“ Messfehler sind. Ohne Diagnose testest du blind. Das Prinzip: Daten und Teardown sagen dir, wo der Hebel liegt, bevor du Budget riskierst. Und „Winner“ ist ohne Unit Economics nur Meinung. Erst wenn Marge, Ziel-CAC und Attribution stehen, kannst du überhaupt entscheiden, was ein Gewinner ist.",
+    ablauf:[
+      {role:"Account", action:"Zugänge und Brand-Material einsammeln: Ad-Account, Pixel/CAPI-Status, Performance-Export der letzten 3 bis 6 Monate, Logo/Fonts/Farben, Review-Quellen, Offer-Kalender und Preis-/Margenliste."},
+      {role:"Strategie", action:"Unit Economics festnageln (AOV, Marge, Ziel-CAC, Attributionsmodell) und Constraints mappen (gesperrte Claims, Pflicht-Disclaimer, Produktionskapazität pro Woche)."},
+      {role:"Performance", action:"Mit performance-reporting den Account-Audit ziehen: Bestperformer, Best Hooks, Gewinner-Copy, Ads to Kill und Format-Mix, gegen die eigenen Top-Performer gelesen, nicht gegen Branchen-Benchmarks."},
+      {role:"Strategie", action:"Mit creative-teardown eigene Top- und Flop-Ads zerlegen (Hook/Angle/Proof/Format) und per Meta Ad Library die Konkurrenz lesen: was läuft dort lange (= Longevity-Signal) und wo ist eine Lücke."},
+      {role:"Strategie", action:"Mit creative-strategy-os die Bottleneck-Diagnose stellen: klemmt es am Scroll-Stop (Hook), am Verlangen (Angle), am Vertrauen (Proof) oder an Conversion/Offer? Das priorisiert die späteren Tests."}
+    ],
+    skills:[
+      {n:"creative-strategy-os", role:"dirigiert", lead:true, p:"Das Betriebssystem: führt eine neue Brand von Tag 1 durch Onboarding → Audit → Research → Diversity → Test → Scale.", pts:["Brand-Onboarding-Worksheet","Account-Audit & Diagnose","orchestriert alle anderen Skills"]},
+      {n:"creative-teardown", role:"liefert", p:"Zerlegt Gewinner-Ads systematisch.", pts:["6-Pass-Teardown","Meta Ad Library lesen (Longevity = Winner)","Swipe-File mit übertragbaren Insights"]},
+      {n:"performance-reporting", role:"liefert Daten", p:"Liest die Account-Daten als Ausgangslage.", pts:["Best Hooks / Bestperformer","Was killen, was iterieren"]}
+    ],
+    output:"Ein Audit-Doc auf einer Seite: Unit Economics, die stärksten Konzepte/Angles und Formate, was tot ist, der diagnostizierte Bottleneck plus ein Brand-Profil (Tonalität, Assets, gesperrte Claims).",
+    feeds:"Station 2: Research & Insight.",
+    falle:"Sofort mit dem Briefing loslegen und den Audit als „Bürokratie“ überspringen. Der zweite Klassiker: die Ad Library als Performance-Beweis lesen. Sie zeigt keine Zahlen, nur Laufzeit als Signal. Lange Laufzeit kann Gewinner heißen, kann aber auch Trägheit der Marke sein.",
+    lehre:"Diagnose vor Kreation. Daten und Teardown sagen dir, wo der Hebel liegt. Bauchgefühl ist der teuerste Berater.",
+    nova:"<b>Audit-Doc NOVA (Auszug):</b> AOV 29,90 €, Ziel-CAC 15 €. Bestperformer der letzten 90 Tage: ein UGC-Video mit Geschmacks-Hook; alle vier Statics zeigen nur die Dose. Bottleneck-Diagnose: Scroll-Stop okay, Verlangen schwach, die Ads reden über Protein statt über Geschmack.",
+    prompt:'<span class="tok">/admkrs-cs-creative-strategy-os</span> - Onboarding-Audit für unsere neue Brand: anbei Performance-Export der letzten 6 Monate, Preis-/Margenliste und Brand-Assets.' },
+
+  { ph:"Station 2", short:"Research", title:["Research ", "& Insight"],
+    goal:"Aus echter Kundensprache das tragfähige Nugget plus eine psychografische Angle-Bank ableiten.",
+    was:"Jetzt suchen wir das „Nugget“ (Voss): den verdichteten Insight, auf dem eine Kampagne tragen kann. Wir minen Kundensprache (Reviews, Reddit, CS-Transkripte, Ad-Kommentare) nach psychografischen Mustern und Awareness-Stages, nicht nach Demografie.",
+    why:"Wer diesen Schritt überspringt, schreibt Ads über das eigene Produkt statt über das, was den Kunden nachts wachhält, und rät die Zielgruppe über Demografie. Der teure Denkfehler: zu glauben, man kenne die Angles schon, und sie am Schreibtisch zu erfinden. Angles werden nicht erfunden, sie werden in der Sprache der Kunden <b>gefunden</b>. Wiederholte Formulierungen sind bereits validierte Verkaufsargumente, weil viele Menschen sie unabhängig geäußert haben. Ohne dieses Fundament testest du in Station 3 zwar sauber, aber die falschen Dinge, und verbrennst Budget an Konzepten, die niemanden treffen.",
+    ablauf:[
+      {role:"Strategie", action:"Voice-of-Customer-Mining mit creative-strategy-os starten: eigene Reviews, Reddit/Nischen-Foren, Ad-Kommentare (eigene + Konkurrenz), CS-Transkripte und Post-Purchase-Umfragen sammeln. Besonders wertvoll: die 1-Sterne-Reviews der Konkurrenz, ihre Pains sind deine Angles."},
+      {role:"Strategie", action:"KI roh clustern lassen, dann von Hand kuratieren: pro Fund Pain, Trigger, Einwand, Transformation und die wörtliche swipeable Phrase festhalten. Keine erfundenen Zitate, nur was echte Kunden wirklich gesagt haben."},
+      {role:"Strategie", action:"Wiederkehrende Formulierungen markieren: was sich über mehrere Quellen wiederholt, ist ein validiertes Verkaufsargument und ein Kandidat fürs Nugget. Einzelmeinungen aussortieren."},
+      {role:"Strategie", action:"Market Sophistication (Schwartz, Stage 1 bis 5) und Unique Mechanism im message-mining-Template bestimmen: wie abgestumpft ist der Markt schon, und welchen eigenen Mechanismus kann nur diese Brand besitzen."},
+      {role:"Strategie", action:"VoC in eine Angle-Bank clustern (P.D.A. = Persona x Desire x Angle, psychografisch) und jedem Angle eine Awareness-Stage (Unaware bis Most-Aware) zuordnen. Das verdichtete Nugget oben drüber."}
+    ],
+    skills:[{n:"creative-strategy-os", role:"führt", lead:true, p:"Steuert Research & Insight-Findung.", pts:["Kundensprache minen (Message Mining)","Awareness-Stages (Schwartz) & Angles","Insight statt Demografie"]}],
+    output:"Eine Angle-Bank mit 4 bis 8 belastbaren Angles (je P.D.A. + Awareness-Stage), darüber das verdichtete Nugget und der ownable Twist, plus eine Awareness-Map. Belegt mit wörtlichen Kundenzitaten, nicht mit Annahmen.",
+    feeds:"Station 3: Strategie (Diversity & Test-Plan).",
+    falle:"Demografie statt Psychografie minen, also „Frauen 25–45“ statt „die abends nicht abschalten kann“. Und: das erste passende Zitat zum Nugget erklären, statt auf Wiederholung über mehrere Quellen zu warten. Ein lauter Einzelfall ist kein Muster, wiederkehrende Sprache schon.",
+    lehre:"Insight schlägt Demografie. Red über das, was dein Gegenüber nachts wachhält, nicht über dein Produkt.",
+    nova:"<b>VoC-Fund (sinngemäß 14x über Reviews und Ad-Kommentare):</b> „Ich hab Proteinpulver im Schrank, aber morgens keine Lust auf den Shaker.“ Abgeleiteter Angle: <b>„Dein Protein ist schon im Kaffee“</b> (Routine-Ersatz statt Extra-Schritt), Awareness-Stage: Problem-Aware.",
+    prompt:'<span class="tok">/admkrs-cs-creative-strategy-os</span> - Voice-of-Customer-Mining: anbei Reviews, Ad-Kommentare und CS-Transkripte, bau daraus Angle-Bank und Awareness-Map.' },
+
+  { ph:"Station 3", short:"Strategie", title:["Strategie: ", "Diversity & Test-Architektur"],
+    goal:"Festlegen, wie viele <b>echt verschiedene</b> Konzepte wir brauchen, und die Test-Architektur dazu bauen.",
+    was:"Wir bestimmen, wie viele wirklich verschiedene Konzepte wir brauchen, und bauen die Test-Architektur. P.D.A. (Persona x Desire x Angle), Format-Mix, 60/30/10-Budget, echte Vielfalt statt Klone, weil Andromeda inhaltliche Gleichheit erkennt.",
+    why:"Anfänger denken, „mehr Creatives“ heißt „mehr Varianten desselben Gedankens“: gleicher Angle, gleicher Schmerz, nur anderes Stockfoto oder andere Headline-Farbe. Unter Andromeda ist das verbranntes Budget, weil der Algorithmus inhaltliche Gleichheit erkennt und solche Klone als ein Signal behandelt. Das Creative IST das Targeting. Du steuerst nicht mehr über Zielgruppen-Einstellungen, sondern darüber, welche verschiedenen Menschen sich von verschiedenen Konzepten angesprochen fühlen. Ohne diesen Schritt testest du zehnmal dieselbe Idee und nennst es einen Test. Echte Vielfalt über Persona, Desire und Angle ist der größte Performance-Hebel, den du hast.",
+    ablauf:[
+      {role:"Strategie", action:"Mit <b>creative-strategy-os</b> das Insight aus Station 2 in eine P.D.A.-Matrix übersetzen: pro relevanter Persona x Desire den passenden Angle bestimmen, sodass jede Zeile ein eigenständiges Konzept ergibt und kein Klon des Nachbarn ist."},
+      {role:"Strategie", action:"Jedes Konzept gegen die anderen prüfen: Wenn zwei sich nur in der Bildfarbe oder Headline unterscheiden, eines streichen. Es bleibt nur, was sich in <b>Persona, Desire oder Angle</b> wirklich unterscheidet."},
+      {role:"Strategie", action:"Pro Konzept den Format-Mix festlegen (Static, Carousel, Motion, UGC/Video) entlang der Awareness-Map, damit jedes Konzept im nativ passenden Format läuft statt überall als gleicher Static."},
+      {role:"Performance", action:"Das Budget nach <b>60/30/10</b> aufteilen: 60% auf bewährte Winner-Logiken, 30% auf neue Konzept-Varianten, 10% auf echte Wetten. So bleibt der Test-Motor liquide und lernt trotzdem weiter."},
+      {role:"Performance", action:"<b>Kill/Scale-Regeln vorab festschreiben</b>, bevor irgendetwas live geht: Kill bei 2 bis 3x Ziel-CPA ohne Signal, Winner schlägt oder matcht den aktuellen Besten bei akzeptablem CPA, geurteilt wird erst ab Spend von mindestens 1x Ziel-CPA und 5 bis 7 Tagen Laufzeit. Eine Variable pro Iteration. So entscheidet später die Regel, nicht das Bauchgefühl bei Tag-2-Schwankungen."},
+      {role:"Strategie", action:"Alles in einer Test-Matrix bündeln: jede Zeile ein Konzept mit Persona, Desire, Angle, Format und Budget-Topf, damit nach dem Launch klar ablesbar ist, welche Variable gewonnen hat."}
+    ],
+    skills:[{n:"creative-strategy-os", role:"führt", lead:true, p:"Definiert Diversity & Test-Plan.", pts:["P.D.A. / Concept-Architecture","Format-Mix: UGC / Offer-Static / Motion","60/30/10 · Test-Matrix"]}],
+    output:"Eine <b>Concept-Architecture</b> (P.D.A. je Konzept) plus Test-Matrix mit Format-Mix, 60/30/10-Budget-Verteilung und vorab fixierten Kill/Scale-Regeln, fertig zum Briefen.",
+    feeds:"Station 4: Briefing.",
+    falle:"Klone für Vielfalt halten: fünf Statics mit gleichem Angle, nur andere Farbe oder Headline. Das ist ein Konzept in fünf Outfits, kein Test. Andromeda erkennt die inhaltliche Gleichheit und du lernst aus dem ganzen Batch nur eine einzige Sache.",
+    lehre:"Unter Andromeda ist das Creative das Targeting. Echte Vielfalt (Angle/Persona/Format) ist der wichtigste Performance-Hebel. Und: Kill/Scale-Regeln werden VOR dem Launch fixiert, nicht im Affekt danach.",
+    nova:"<b>Eine Zeile der NOVA-Test-Matrix:</b> Persona „Pendlerin, morgens keine Zeit“ x Desire „Protein ohne Extra-Schritt“ x Angle „Schon im Kaffee“ → UGC-Video, 30%-Topf (neue Konzept-Variante). Vorab fixiert: Kill bei 2 bis 3x Ziel-CPA ohne Signal (bei 15 € Ziel-CAC also 30 bis 45 € Spend), Urteil frühestens nach 1x Ziel-CPA Spend und 5 bis 7 Tagen.",
+    prompt:'<span class="tok">/admkrs-cs-creative-strategy-os</span> - Bau aus der Angle-Bank die P.D.A.-Matrix mit Format-Mix, 60/30/10-Budget und Kill/Scale-Regeln vorab.' },
+
+  { ph:"Station 4", short:"Briefing", title:["Briefing: ", "Konzept wird Bauplan"],
+    goal:"Aus Insight und Test-Plan umsetzungsreife Briefings bauen, die jeder Designer, Editor oder Creator ohne Rückfrage produzieren kann.",
+    was:"Das Herzstück: Aus Insight und Test-Plan werden konkrete Konzepte (je 3 Hooks zum Testen, VO-First-Storyboards, Copy, Sub-Claims, CTA) als fertiges docx im ADMKRS-Stil. Hooks zuerst, Klarheit vor Kunst, dann Haltung (Voss). Je nach Format greift eine eigene Tür auf dieselbe Engine: Static, Motion (VO-First), Video oder UGC (Creator-Briefing samt Rechten und Kennzeichnung). Soll ein freigegebenes Konzept international laufen, hängt localization-briefing als Add-on an und übersetzt es sinngemäß und native in die Zielsprache.",
+    why:"Hier wird Strategie zu etwas, das man drehen und designen kann. Der teure Anfänger-Denkfehler: Man springt direkt zu „ich brauche 10 Creatives“ und schreibt Hooks aus dem Bauch, ohne dass jedes Konzept an einen konkreten Test-Hebel und an das Insight hängt. Dann produziert man 10 Varianten desselben Gedankens, lernt nichts und verbrennt Budget. Der Schritt existiert, damit jedes Creative eine <b>Hypothese</b> trägt: dieser Angle, diese Persona, dieser Hook, getestet gegen jenes. Und damit der Brief so konkret ist, dass die Produktion nicht rät. Ein Briefing ist kein Wunschzettel, es ist eine testbare Entscheidung in Dokumentform. Bei UGC gilt zusätzlich: Boundaries statt Wort-für-Wort-Skript. Wer Creator wie Schauspieler behandelt, bekommt vorgelesene Videos und verliert genau das, was UGC stark macht: Authentizität. Und Rechte plus Werbe-Kennzeichnung gehören vor den Dreh geklärt, nicht danach.",
+    ablauf:[
+      {role:"Strategie", action:"Format-Tür und Konzept-Portfolio aus der Test-Matrix festlegen: pro Angle ein Konzept (1 Angle = 1 Konzept), Voss-Schärfe-Stufe setzen, dann die passende Engine starten (creative-briefing als Generalist, oder static-briefing / motion-ad-briefing / video-ad-briefing / ugc-briefing je Format)."},
+      {role:"Copy", action:"Hooks zuerst: pro Konzept drei Hooks aus verschiedenen Kategorien für den Scroll-Stop-Test, jeder durch den Kontext-frei- und Kürzen-Pass (jedes Substantiv konkret, ein Gedanke, ein Hauptsatz), Zahlen und Namen aus dem Insight rein, Buzzwords raus."},
+      {role:"Copy", action:"Body bauen: bei Motion und Video das VO-Script als zusammenhängenden Spine schreiben (Hook 0 bis 2 s, Spannung, Auflösung, CTA), dann Sub-Claims, USP-Zeile und CTA ableiten, Klarheit vor Kunst, danach Haltung. Bei UGC den Body als time-coded Beats mit Boundaries statt Wort-für-Wort, damit der Creator in eigenen Worten spricht."},
+      {role:"Design", action:"Visual-Direction und time-coded Storyboard pro Konzept anlegen, damit Bild und On-Screen-Text sich an die VO-Beats hängen; Specs, Ratio, KI-invariante Elemente (Logo, Claim, gesperrte Zahlen) festschreiben."},
+      {role:"Performance", action:"Bei UGC parallel die Creator-Ops klären, mit ugc-creator-ops: Creator deliverable-basiert sourcen (Influee, Billo, Collabstr), Nutzungsrechte und Whitelisting vorab vertraglich fixieren (Agentur-Standard: 6 Monate Paid-Media-Rechte) und die Kennzeichnung setzen (#Werbung am Anfang, vor dem Mehr-Cut)."},
+      {role:"Strategie", action:"Mit dem docx-Builder rendern (Dateiname YYMMDD_BRAND_Produkt_Typ_LANG), dann Selbst-Quality-Check gegen die Checkliste (Hook-Test, Schachtel-Test, nichts erfunden) und als Entwurf übergeben. Für internationale Märkte danach localization-briefing starten: Struktur englisch, Copy DE plus native Übersetzung, Glossar bindend."}
+    ],
+    skills:[
+      {n:"creative-briefing", role:"Engine + Generalist", lead:true, p:"Kommt zum Einsatz, sobald getextet wird, und versorgt die drei Format-Türen mit Methode, Hooks & docx-Builder.", pts:["3 Konzepte · je 3 Hooks (Scroll-Stop)","Strategy-, Hook- & Framework-Engine + Voss-Haltung","baut das fertige .docx im ADMKRS-Stil"]},
+      {n:"static-briefing", role:"Format-Tür · Static", p:"Kommt zum Einsatz für Single-Image-, Review-, Comparison- & Offer-Statics und Carousels.", pts:["Strategie-Layer → Briefing-Tabelle (1 Zeile pro Static)","Offer-Static = Effizienz-Hebel","nutzt die creative-briefing-Engine, nur auf Static gescoped"]},
+      {n:"motion-ad-briefing", role:"Format-Tür · Motion", p:"Kommt zum Einsatz für animierte/kinetische Ads & Motion-Graphics, VO-First.", pts:["VO-Script (Spine) führt, Storyboard mappt auf die VO-Beats","ein gesprochener Take statt abgehacktem Stakkato","faceless, ohne Dreh skalierbar"]},
+      {n:"video-ad-briefing", role:"Format-Tür · Video", p:"Kommt zum Einsatz für gedrehte Video-Ads (Talking-Head, Studio, Demo, VSL).", pts:["time-coded Script/Shotlist","gesprochener Flow, sound-off-tauglich via Captions","reines Creator-/UGC-Video → ugc-briefing"]},
+      {n:"ugc-briefing", role:"Format-Tür · UGC", p:"Kommt zum Einsatz für Creator-/UGC-Videos: komplettes Creator-Briefing als docx.", pts:["3 Hooks aus verschiedenen Kategorien + Frameworks je Awareness","drehfertige time-coded Beats: Boundaries statt Wort-für-Wort","dual-purpose: drehfertig für den Creator, strategisch lesbar für den Kunden"]},
+      {n:"ugc-creator-ops", role:"Operations · UGC", p:"Regelt das Drumherum von UGC, bevor gedreht wird.", pts:["Creator sourcen & briefen (deliverable-basiert)","Nutzungsrechte & Whitelisting vorab vertraglich","Partnership-Ads & EU-Kennzeichnung (#Werbung)"]},
+      {n:"offer-promo-strategy", role:"zieht", p:"Kommt zum Einsatz, wenn ein Angebot in die Creatives soll.", pts:["% vs € vs Bundle vs Free-Shipping wählen","Break-even-Math & Cadence"]},
+      {n:"google-cross-channel", role:"für Google", p:"Kommt zum Einsatz, wenn das Konzept auf Google läuft.", pts:["Demand Gen · PMax · YouTube","exakte 2026-Specs (Assets, Limits, Ratios)"]},
+      {n:"localization-briefing", role:"Add-on · International", p:"Kommt zum Einsatz, wenn ein freigegebenes Briefing in andere Märkte soll (NL/FR/ES/…).", pts:["Struktur englisch, Copy DE → native Übersetzung (nie wörtlich)","Hooks & Wortspiele neu verankert, nicht übersetzt","Motion im 2-Spalten-Format (On-Screen · Voice-Over), Glossar bindend"]}
+    ],
+    output:"Fertige Briefing-Dokumente (docx im ADMKRS-Stil) je Konzept und Format: Strategie-Anker, drei Hooks, VO-Spine, Storyboard, Copy, Sub-Claims und CTA, drehfertig. Bei UGC zusätzlich geklärte Creator-Ops: Sourcing, Lizenz und Whitelisting vertraglich fixiert.",
+    feeds:"Station 5: Produktion.",
+    falle:"Der Klon-Fehler: zehn Varianten desselben Gedankens statt echter Konzept-Vielfalt. Und bei UGC: das Skript Wort für Wort vorschreiben und Rechte/Disclosure erst nach dem Dreh klären. Über-Briefing killt die Authentizität, und ohne vorab geklärte Lizenz darf das Video gar nicht als Ad laufen.",
+    lehre:"Die ersten 2 Sekunden entscheiden. Erst verständlich (Klarheit), dann frech (Haltung). Bei Motion trägt das Voice-Over den Watch-Flow.",
+    nova:"<b>NOVA-Hook vor dem Kürzen-Pass:</b> „Wusstest du, dass du dein Protein einfach in deinen Morgenkaffee integrieren kannst?“ <b>Danach:</b> „Dein Kaffee kann 24 g Protein. Ohne Shaker.“ Ein Gedanke, ein Hauptsatz, Zahl aus dem Faktenblatt statt Buzzword.",
+    prompt:'<span class="tok">/admkrs-cs-creative-briefing</span> - 3 Static-Konzepte für NOVA Protein Coffee, Ziel: Trial-Käufe, ZG Fitness-DACH, anbei Angle-Bank und Faktenblatt.' },
+
+  { ph:"Station 5", short:"Produktion", title:["Produktion: ", "der Mensch baut"],
+    goal:"Aus dem Briefing fertige Creatives bauen: schnell, nah am Briefing, bei rund 80 Prozent shippen statt endlos polieren.",
+    was:"Hier arbeitet der Mensch, nicht Claude: Designer setzen Statics und Motion um, Editoren schneiden, Creator drehen nach dem UGC-Briefing. Das Briefing aus Station 4 ist die Bau-Anweisung, so geschrieben, dass niemand raten muss.",
+    why:"In der Testphase schlägt Tempo Perfektion. Der teure Anfänger-Denkfehler: jedes Creative auf 100 Prozent polieren, bevor es je eine Impression gesehen hat. Du steckst zwei Extra-Tage Feinschliff in ein Konzept, das der Markt nach dem Test vielleicht komplett verwirft, und die Konzepte, die du in der Zeit hättest bauen können, existieren nie. Darum shippen wir bei rund 80 Prozent: Der Test zeigt, welches Konzept trägt, und poliert wird, was gewonnen hat. Wichtig: 80 Prozent heißt nicht schlampig. Hook, Pflicht-Elemente (Logo, Claims, Disclaimer) und Lesbarkeit müssen sitzen, genau das prüft die Abnahme in Station 6.",
+    ablauf:[
+      {role:"Design", action:"Statics und Motion nach Storyboard bauen: Hook prominent und lesbar, KI-invariante Elemente (Logo, Claim, gesperrte Zahlen) exakt wie im Briefing, Specs und Formate (4:5 + 9:16) einhalten."},
+      {role:"Design", action:"Video und Motion schneiden: On-Screen-Text an die VO-Beats hängen, Captions für Sound-off, End-Card mit CTA als letzter Beat."},
+      {role:"Account", action:"Creator liefern nach dem UGC-Briefing: 3 Hooks, Body als Beats in eigenen Worten. Rückfragen beantwortet das Briefing, nicht der Flurfunk; fehlt dort etwas, geht das Feedback zurück an Station 4."},
+      {role:"Strategie", action:"Bei rund <b>80 Prozent shippen</b>: fertig ist, was Hook, Pflicht-Elemente und Lesbarkeit sauber hat. Feinschliff bekommt später nur, was den Test gewinnt."}
+    ],
+    skills:[],
+    output:"Fertige Creatives je Konzept (Static, Motion, Video/UGC) in 4:5 und 9:16, gebaut nach Briefing und bereit für die Abnahme, bewusst bei rund 80 Prozent Politur.",
+    feeds:"Station 6: Abnahme.",
+    falle:"Auf 100 Prozent polieren, bevor getestet wurde: In der Testphase schlägt Tempo Perfektion, der Markt sagt dir, welches Creative Feinschliff verdient. Die Gegen-Falle: 80 Prozent als Ausrede für einen unlesbaren Hook oder fehlende Pflicht-Elemente nehmen, genau das fängt die Abnahme ab.",
+    lehre:"Shippen bei rund 80 Prozent. Der Test entscheidet, was Politur verdient, nicht das Bauchgefühl vor dem Launch.",
+    nova:"<b>NOVA-Produktion:</b> Der Editor schneidet das UGC-Video nach Storyboard: Hook-Beat bei 0 bis 2 s (Shaker wandert in den Schrank, Kaffee bleibt), Captions für Sound-off. Version 1 hat bei Sekunde 9 einen unsauberen Cut, aber Hook, Pflicht-Elemente und Lesbarkeit sitzen: shippen, der Test entscheidet über Feinschliff.",
+    prompt:'Nutze die ADMKRS Creative Suite: Ich setze gerade das NOVA-Briefing um, beantworte mir Rückfragen zu Storyboard-Beats, Specs und Pflicht-Elementen.' },
+
+  { ph:"Station 6", short:"Abnahme", title:["Abnahme: ", "Treue, Handwerk, Recht"],
+    goal:"Jedes fertige Creative durch zwei Tore schicken: erst Wirkung und Handwerk (Verifier), dann Recht und Policy (Compliance). Beide grün, dann live.",
+    was:"Bevor irgendetwas live geht, prüft der creative-verifier das fertige Creative gegen das Briefing: Briefing-Treue, Hook-Wirksamkeit, der 49-Punkte-Designcheck und Marken-Regeln. Danach prüft ad-compliance-check gegen Meta-Standards 2026 und EU/DACH-Recht. Reichweite zu verlieren, bevor sie startet, ist der teuerste Fehler.",
+    why:"Zwei verschiedene Fehler kosten hier Geld, und Anfänger prüfen meist nur einen davon. Fehler eins: das tote-aber-korrekte Creative. Der Designer hat alles wortgleich umgesetzt, aber der Hook ist kleinteilig gesetzt und auf Mobile unlesbar, das Logo verzerrt, ein Tippfehler drin: briefing-treu und trotzdem wirkungslos. Darum prüft der Verifier nicht nur Treue, sondern Wirksamkeit und Handwerk. Fehler zwei: der Policy-Reject. Meta prüft 2026 proaktiv per KI, bevor die erste Impression ausgeliefert wird. Eine Ablehnung verbrennt Lernphase und drückt die Account-Health, was alle anderen Ads im Konto teurer macht. Und Meta wertet auch <b>implizierte</b> Attribute, KI-Visuals und sogar deine Audience-Namen aus: Was du nie hinschreibst, kann trotzdem abgelehnt werden. Die Reihenfolge ist bewusst: erst Verifier, dann Compliance, denn ein Creative, das am Handwerk scheitert, muss gar nicht erst juristisch geprüft werden.",
+    ablauf:[
+      {role:"Design", action:"Fertige Creatives plus zugehöriges Briefing an den creative-verifier geben: Er prüft Briefing-Treue (Hook, Claims, CTA wie gebrieft), Hook-Wirksamkeit (stoppt das den Daumen wirklich?) und das Handwerk über den 49-Punkte-Designcheck (Typo, Logo, Layout, Kontraste, Formate) samt Marken-Regeln."},
+      {role:"Design", action:"Verifier-Findings fixen: Was durchfällt, geht zurück an die Produktion (Station 5). Erst wenn der Verifier grün ist, geht das Creative ins zweite Tor."},
+      {role:"Compliance", action:"Die zwei häufigsten Policy-Killer zuerst prüfen, mit ad-compliance-check: Personal Attributes (direkt UND impliziert, plus Audience-/Custom-Audience-Namen wie „diabetics_retarget“) und Before/After, auch impliziert, also Produkt neben fittem Körper."},
+      {role:"Compliance", action:"Kategorie-Risiken abklopfen: bei Supplements muss der Disclaimer „dient nicht zur Diagnose/Behandlung/Heilung von Krankheiten“ in der Ad-Copy selbst stehen (nicht nur auf der LP), KI-Visuals/Audio kennzeichnen, Testimonials auf typische Erfahrung prüfen, Fake-Urgency und SAC-Motive (Kredit/Job/Wohnen) checken."},
+      {role:"Strategie", action:"Gegenprüfen, ob der Ad-Claim wirklich der Landingpage entspricht, denn Claim ungleich LP ist ein eigener Ablehnungsgrund, und ob EU-Health-Claims im EU-Register zugelassen sind."},
+      {role:"Compliance", action:"Verdikt setzen: Freigabe, Fix nötig (zurück an Copy/Design) oder bei Health/Finance/EU-Grenzfällen an Kunde/Anwalt eskalieren, statt selbst Rechtsberatung zu spielen."}
+    ],
+    skills:[
+      {n:"creative-verifier", role:"Abnahme-Gate · zuerst", lead:true, p:"Prüft fertige Creatives gegen Briefing und Handwerk, bevor Compliance drankommt.", pts:["Briefing-Treue: Hook, Claims, CTA wie gebrieft","Hook-Wirksamkeit statt nur Wortlaut","49-Punkte-Designcheck (7 Kategorien) & Marken-Regeln"]},
+      {n:"ad-compliance-check", role:"Guardrail · danach", p:"Prüft freigegebene Creatives gegen Recht und Policy, direkt vor dem Launch.", pts:["Meta Advertising Standards 2026","EU/DACH: Health-, Finance-, Personal-Attributes-Claims","AI-Disclosure, Before/After, Testimonials"]}
+    ],
+    output:"Pro Creative zwei grüne Haken: ein Verifier-Verdikt (Briefing-Treue, Wirksamkeit, Designcheck) und eine Compliance-Checkliste mit klarem Verdikt (Freigabe / Fix / Eskalation). Erst beides zusammen macht ein Creative launch-fähig.",
+    feeds:"Station 7: Launch & Landingpage.",
+    falle:"Eine wörtlich korrekte, aber tote Hook durchwinken, weil „steht ja so im Briefing“. Und auf der Policy-Seite: nur die explizite Aussage lesen und das Bild, den Audience-Namen und die Andeutung übersehen. Ein „sauberer“ Text rettet ein verbotenes Before/After-Bild nicht.",
+    lehre:"Zwei Tore, feste Reihenfolge: erst Wirkung und Handwerk, dann Recht. Der günstigste Test ist der, der eine Ablehnung verhindert.",
+    nova:"<b>Verifier-Finding am NOVA-Static:</b> Hook wortgleich aus dem Briefing übernommen, aber kleinteilig ins untere Drittel gesetzt, auf Mobile unlesbar → zurück an Design. Danach Compliance: „24 g Protein“ ist eine belegte Nährwertangabe, kein Health-Claim → Freigabe.",
+    prompt:'<span class="tok">/admkrs-cs-creative-verifier</span> - Abnahme: anbei die fertigen NOVA-Creatives plus Briefing. Danach bitte /admkrs-cs-ad-compliance-check vor dem Launch.' },
+
+  { ph:"Station 7", short:"Launch", title:["Launch ", "& Landingpage"],
+    goal:"Die freigegebenen Creatives sauber in die Testing-Struktur bringen und den Klick zur Conversion führen: Die Seite löst ein, was die Ad verspricht.",
+    was:"Jetzt geht es live, aber nicht irgendwohin: Creatives laufen benannt und getrackt in die Testing-Kampagne, neue gegen neue. Parallel ziehen wir den Message-Match von der Ad bis auf die Landingpage durch, denn die beste Ad stirbt an einer schlechten Seite.",
+    why:"Zwei Anfängerfehler ruinieren hier den ganzen sauberen Vorbau. Erstens das Test-Setup: neue Creatives einfach in die laufende Kampagne neben gealterte Gewinner werfen. Die Gewinner haben History-Vorteil, die Neulinge bekommen kaum Spend, und hinterher heißt es „hat nicht funktioniert“. Getestet wird new-vs-new mit vergleichbarem Budget, sonst ist das Ergebnis verzerrt, bevor es existiert. Zweitens der Post-Click: Du glaubst, deine Arbeit endet beim Klick. Tatsächlich erzeugt jeder Klick einen mentalen Vertrag. Die Ad hat etwas versprochen (einen Hook, ein Angebot, eine Szene), und die Seite muss das in 2 bis 3 Sekunden einlösen. Tut sie es nicht, verbrennst du das Geld, das du für den Klick gerade bezahlt hast. <b>Hohe CTR, aber niedrige CVR ist fast nie die Ad, sondern die Seite.</b> Wer diesen Schritt überspringt, skaliert ein Leck.",
+    ablauf:[
+      {role:"Performance", action:"Launch sauber aufsetzen: Creatives nach Konvention <b>Format_Hook_Angle_Audience</b> benennen und in den Creative-Tracker eintragen, sonst lässt sich später nicht auswerten, welche Idee gewinnt."},
+      {role:"Performance", action:"<b>Test-Setup</b> nach creative-strategy-os: in die Testing-Kampagne, <b>new-vs-new</b> (neue Creatives nie gegen gealterte Gewinner, History-Vorteil verzerrt). Struktur nach Spend: kleines Konto ASC+/CBO, mittleres ABO mit gleichem Budget je Ad-Set (sauberer, vergleichbarer Read), großes Cost-Cap mit einem ABO-Ad-Set je Konzept. 20 bis 40 Prozent des Budgets gehören ins Testing, die 60/30/10-Töpfe aus Station 3 steuern die Verteilung; Gewinner graduieren später in die Scaling-Kampagne (CBO/Advantage+)."},
+      {role:"Strategie", action:"Mit landing-page-cro den Message-Match prüfen: spiegelt das erste Frame der Seite den Hook der Ad in Headline, Visual und Offer? Das ist der wichtigste Hebel, vor allem Cold-Traffic auf dedizierte LP statt generische PDP."},
+      {role:"Strategie", action:"Above-the-fold mobil-first auditieren (60 bis 75 Prozent Traffic ist mobil): Message-Match bestätigt, Value-Prop sichtbar, tappbarer CTA, alles ohne Scrollen."},
+      {role:"Performance", action:"Core Web Vitals messen (LCP unter 2,5 s, INP unter 200 ms, CLS unter 0,1) und Checkout-Friction nach Baymard rausnehmen: Guest-Checkout, Gesamtkosten früh zeigen, Felder auf 7 bis 8 reduzieren, Inline-Validierung."},
+      {role:"Copy", action:"Spezifischen Social Proof und Risk-Reversal nahe am CTA platzieren: quantifiziertes Testimonial mit konkretem Ergebnis statt anonymer Sterne, plus Geld-zurück-Garantie bei unbekannter Marke."}
+    ],
+    skills:[{n:"landing-page-cro", role:"führt", lead:true, p:"Brieft & auditiert die Post-Click-Erfahrung.", pts:["Message-Match: Ad → Page","Core Web Vitals, Checkout-/Form-Friction","evidenzbasiert (Baymard, NNGroup)"]}],
+    output:"Live geschaltete Tests mit sauberem Read: benannte Creatives im Tracker, Testing-Kampagne new-vs-new mit fairem Budget, plus eine message-matched Landingpage: erstes Frame spiegelt die Ad, mobil-first über dem Fold, Core Web Vitals im grünen Bereich, Checkout entschlackt.",
+    feeds:"Station 8: Skalieren.",
+    falle:"Top-Ad auf eine generische PDP schicken: Die Ad verspricht ein konkretes Ergebnis, die Seite begrüßt mit Marken-Headline, der mentale Vertrag bricht in den ersten 2 Sekunden. Und beim Setup: neue Creatives gegen gealterte Gewinner testen und aus dem verzerrten Ergebnis „lernen“.",
+    lehre:"CTR hoch, aber CVR niedrig? Fast immer die Landingpage. Und getestet wird new-vs-new, sonst ist das Ergebnis verzerrt, bevor es existiert.",
+    nova:"<b>NOVA-Launch:</b> Drei neue Konzepte gehen in die Testing-Kampagne (ABO, gleiches Budget je Ad-Set, new-vs-new). Die LP zum Geschmacks-Hook zeigt im ersten Frame die Latte-Tasse mit „24 g Protein. Schmeckt wie Latte“, nicht die generische Shop-Startseite.",
+    prompt:'<span class="tok">/admkrs-cs-landing-page-cro</span> - Message-Match-Check: anbei Hook und Copy der freigegebenen NOVA-Ads plus URL der Ziel-Landingpage.' },
+
+  { ph:"Station 8", short:"Skalieren", title:["Skalieren, ", "Reporting & Iteration"],
+    goal:"Performance in Entscheidungen übersetzen: skalieren, iterieren, killen, und die Learnings zurück in den Kreislauf geben.",
+    was:"Nach dem Launch lesen wir die Performance, nicht als Vanity-Zahlen, sondern als Entscheidungen. Was gewinnt, wird iteriert und skaliert; was nicht zieht, wird gestoppt. Die Learnings starten die nächste Runde.",
+    why:"Wer das zum ersten Mal macht, schaut auf eine Gesamtzahl (ROAS, Umsatz) und fällt ein Urteil über das ganze Creative. Das ist der teure Denkfehler: Eine Zahl allein lügt fast immer. Ein Creative kann ROAS 1,1 haben, weil der Hook stark zieht (Thumbstop 42 Prozent), aber der Body das Versprechen nicht hält (Outbound-CTR 0,4 Prozent). Wer nur den ROAS sieht, killt das ganze Creative und verliert den starken Hook mit. Darum existiert dieser Schritt: Du liest IMMER eine Ergebnis-Metrik zusammen mit den Diagnose-Metriken, die erklären warum. Der zweite Denkfehler ist, den Report als Zahlen-Beweis zu sehen statt als Entscheidung. Ein Report ist erst fertig, wenn drinsteht was wir gelernt haben und was als Nächstes passiert.",
+    ablauf:[
+      {role:"Performance", action:"Den Metrik-Stack je Creative lesen statt nur die Gesamtzahl: Ergebnis (CPA/ROAS/CVR) zusammen mit Diagnose (Thumbstop/Hook-Rate, Hold, Outbound-CTR), um zu sehen ob Hook, Body, LP oder Offer bricht."},
+      {role:"Performance", action:"Die Konto-Wahrheit danebenlegen: <b>MER</b>, Blended ROAS, nCAC und Contribution. Wenn Plattform-ROAS fällt aber MER stabil ist, ist es ein Tracking-Shift, kein echtes Problem. Diese Regel verhindert die häufigste Panik-Fehlentscheidung."},
+      {role:"Strategie", action:"Je Creative eine Entscheidung treffen, nach den <b>vorab fixierten Regeln aus Station 3</b>: Winner skalieren (in die Scaling-Kampagne graduieren, CBO/Advantage+), starker-Hook-schwacher-Body iterieren (Hook behalten, Body neu, eine Variable pro Iteration), Verlierer killen, und das mit Begründung festhalten."},
+      {role:"Performance", action:"Mit <b>performance-reporting</b> den narrativen Report bauen: Executive Summary, Creative-Performance nach Konzept, falsifizierbare Learnings („Direct-Offer-Hooks schlugen Testimonial-Hooks 2,3x auf CVR bei Audience X“) und „was wir als Nächstes testen“."}
+    ],
+    skills:[
+      {n:"performance-reporting", role:"führt", lead:true, p:"Reports mit Learnings statt Vanity.", pts:["Metrik-Stack: Hook · Hold · CTR · CVR · ROAS","Profit/MER & Attribution 2026","Campaign-Tracker + Cadence"]},
+      {n:"creative-strategy-os", role:"Diagnose & Scaling", p:"Führt die Diagnose- und Scaling-Systematik: welche Metrik diagnostiziert welchen Teil des Creatives, wann wird iteriert, wann skaliert.", pts:["Kill/Iterate/Scale nach den vorab fixierten Regeln","eine Variable pro Iteration","Learnings zurück ins System (Flywheel)"]}
+    ],
+    rule:{l:"Wann darfst du urteilen? · ADMKRS-Haus-Standard", p:"<b>Mindest-Read je Konzept: Spend von mindestens 1x Ziel-CPA UND 5 bis 7 Tage Laufzeit.</b> Vorher ist jede Zahl Rauschen: Tag-1-Daten schwanken, und Andromedas schnelles Signal verleitet dazu, frühe Varianz für Insight zu halten. Rund 1.000 Impressionen sind nur der Delivery-Check (je nach CPM oft 10 bis 20 € Spend), keine Urteilsbasis. <b>Kill:</b> bei 2 bis 3x Ziel-CPA ohne Signal. <b>Winner:</b> schlägt oder matcht den aktuellen Besten bei akzeptablem CPA. Etwa 20 bis 30 Conversions zu gutem CPA sind eine operative Entscheidungsbasis, keine statistische Signifikanz, und genau so kommunizieren wir sie. Festgeschrieben werden diese Regeln in Station 3, hier werden sie nur noch angewendet."},
+    output:"Ein narrativer Report (PDF/Deck) plus Live-Dashboard: pro Creative eine begründete Kill/Iterate/Scale-Entscheidung, getrennte Business-Metriken (MER/Profit/nCAC) und falsifizierbare Learnings mit konkreten Test-Hypothesen für die nächste Runde.",
+    feeds:"Zurück in Station 2: Research & Insight (Flywheel).",
+    falle:"Auf die Gesamtzahl (ROAS/Umsatz) steuern und das ganze Creative killen, statt den Stack zu lesen. So verlierst du einen starken Hook mit, nur weil der Body schwach war. Und: Plattform-ROAS allein vertrauen, obwohl er 30 bis 60 Prozent über dem echten Umsatz liegt, statt MER danebenzulegen.",
+    lehre:"Ein Report liefert Entscheidungen, keine Zahlen. Und er schließt den Kreis: Learnings zurück in Research & Diversity.",
+    nova:"<b>NOVA nach 7 Tagen:</b> „Schon im Kaffee“-UGC: Thumbstop und Hold stark, CPA unter Ziel → skalieren. „Kein Kreide-Aftertaste“-Static: Thumbstop stark, Outbound-CTR schwach → Hook behalten, Body neu. Dosen-Static: über 2x Ziel-CPA ohne Signal → Kill, nach der Regel aus Station 3.",
+    prompt:'<span class="tok">/admkrs-cs-performance-reporting</span> - Wochen-Report für die NOVA-Testing-Kampagne: Metrik-Stack je Creative plus Kill/Iterate/Scale-Empfehlung, anbei der Export.' }
+];
+
+const stepper = document.getElementById('stepper');
+const panels = document.getElementById('panels');
+
+STEPS.forEach((s, i) => {
+  const b = document.createElement('button');
+  b.className = 'step' + (i === 0 ? ' active' : '');
+  b.dataset.i = i;
+  b.innerHTML = `<span class="sn">${i}</span><span><span class="sph">${s.ph}</span><span class="stt">${s.short}</span></span>`;
+  b.addEventListener('click', () => select(i));
+  stepper.appendChild(b);
+
+  const ablauf = s.ablauf.map((a, n) => `
+    <li class="ab">
+      <span class="ab-n">${n + 1}</span>
+      <div class="ab-body">
+        <span class="ab-role"><span class="dot" style="background:${ROLECLR[a.role] || '#888'}"></span>${a.role}</span>
+        <span class="ab-act">${a.action}</span>
+      </div>
+    </li>`).join('');
+
+  const skCards = s.skills.length ? s.skills.map(sk => `
+    <div class="sk">
+      <div class="sk-head"><span class="sk-name"><span class="slash">/</span>${sk.n}</span><span class="sk-role${sk.lead ? ' lead' : ''}">${sk.role}</span></div>
+      <p>${sk.p}</p>
+      <div class="sk-how">So arbeitet er</div>
+      <ul>${sk.pts.map(p => `<li>${p}</li>`).join('')}</ul>
+    </div>`).join('') : `
+    <div class="sk">
+      <div class="sk-head"><span class="sk-name">Kein Skill</span><span class="sk-role lead">hier arbeitet der Mensch</span></div>
+      <p>Das Briefing aus Station 4 ist die Bau-Anweisung. Claude hilft trotzdem bei Rückfragen: Storyboard-Beats erklären, Specs nachschlagen, Alternativen für einen Beat vorschlagen.</p>
+    </div>`;
+
+  const p = document.createElement('div');
+  p.className = 'panel' + (i === 0 ? ' active' : '');
+  p.dataset.i = i;
+  p.innerHTML = `
+    <div class="p-eyebrow">${i === 0 ? 'Schritt 0 · einmalig, vor dem Kreislauf' : `Station ${i} von 8`} · <a href="flow.html">gleiche Station auf der Ablauf-Map ↗</a></div>
+    <h2 class="p-title">${s.title[0]}<span class="thin">${s.title[1] || ''}</span></h2>
+    <div class="p-goal"><span class="goal-t">Ziel</span><span>${s.goal}</span></div>
+    <p class="p-was">${s.was}</p>
+    <div class="why"><div class="lbl">Warum dieser Schritt</div><p>${s.why}</p></div>
+    <div class="lbl section">So läuft's bei ADMKRS</div>
+    <ol class="ablauf">${ablauf}</ol>
+    ${s.rule ? `<div class="rulebox"><div class="rb-l">${s.rule.l}</div><p>${s.rule.p}</p></div>` : ''}
+    ${s.nova ? `<div class="nova"><div class="nv-l">Beispiel NOVA · fiktive Marke</div><p>${s.nova}</p></div>` : ''}
+    <div class="lbl section">Welche Skills hier helfen</div>
+    <div class="sk-cards">${skCards}</div>
+    ${s.prompt ? `<div class="lbl section">So startest du diesen Schritt in Claude</div>
+    <div class="startline"><button class="copybtn" type="button">kopieren</button><code>${s.prompt}</code></div>` : ''}
+    <div class="out">
+      <div class="out-top"><span class="out-l">Das Ergebnis</span><span class="feeds">→ ${s.feeds}</span></div>
+      <p>${s.output}</p>
+    </div>
+    <div class="falle"><span class="ic">!</span><div><b>Anfänger-Falle:</b> ${s.falle}</div></div>
+    <div class="lehre"><span class="ic">★</span><div><b>Was du über Creative Strategy lernst:</b> ${s.lehre}</div></div>
+    <div class="p-nav">
+      <button class="prev"${i === 0 ? ' disabled' : ''}>← ${i > 0 ? STEPS[i-1].short : ''}</button>
+      <button class="next"${i === STEPS.length - 1 ? ' disabled' : ''}>${i < STEPS.length - 1 ? STEPS[i+1].short : ''} →</button>
+    </div>`;
+  panels.appendChild(p);
+  p.querySelector('.prev').addEventListener('click', () => { if (i > 0) select(i - 1); });
+  p.querySelector('.next').addEventListener('click', () => { if (i < STEPS.length - 1) select(i + 1); });
+});
+
+function select(i){
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('active', +s.dataset.i === i));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', +p.dataset.i === i));
+  const act = document.querySelector('.step.active');
+  if (act) act.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+  if (window.innerWidth <= 920) document.querySelector('#panels').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// copy (pattern wie index.html)
+document.querySelectorAll('.copybtn').forEach(b => b.addEventListener('click', () => {
+  const code = b.parentElement.querySelector('code');
+  navigator.clipboard.writeText(code.innerText).then(() => {
+    const t = b.textContent; b.textContent = 'kopiert ✓'; setTimeout(() => b.textContent = t, 1600);
+  });
+}));
+
+// rollen-schnellstart: jobtitel -> relevante stationen
+const ROLLEN = [
+  {t:"Media Buyer", steps:[1,3,7,8]},
+  {t:"Designer", steps:[4,5,6]},
+  {t:"Editor", steps:[4,5,6]},
+  {t:"UGC-Creator", steps:[4,5]},
+  {t:"Creative Strategist", steps:[1,2,3,4,8]},
+  {t:"GF / Account", steps:[0,1,6,8]}
+];
+const roleGrid = document.getElementById('roleGrid');
+ROLLEN.forEach(r => {
+  const c = document.createElement('button');
+  c.className = 'rolechip'; c.type = 'button';
+  c.innerHTML = `<span class="rt">${r.t}</span><span class="rs">${r.steps.join(' · ')}</span>`;
+  c.addEventListener('click', () => {
+    const on = c.classList.contains('on');
+    document.querySelectorAll('.rolechip').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.step').forEach(x => x.classList.remove('hl'));
+    if (on) return;
+    c.classList.add('on');
+    document.querySelectorAll('.step').forEach(x => { if (r.steps.includes(+x.dataset.i)) x.classList.add('hl'); });
+    select(r.steps[0]);
+  });
+  roleGrid.appendChild(c);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+:root {
+  --bg: #09090A;
+  --panel: #0E0E10;
+  --ink: #ECEAE4;
+  --soft: #C9C5BC;
+  --muted: #86837C;
+  --line: rgba(236, 234, 228, 0.09);
+  --accent: #C6FF3A;
+  --accent-soft: rgba(182, 244, 0, 0.12);
+  --neon-glow: rgba(182, 244, 0, 0.32);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 520px at 88% -8%, rgba(182, 244, 0, 0.13), transparent 62%),
+    radial-gradient(760px 460px at 2% 8%, rgba(52, 208, 88, 0.05), transparent 58%),
+    var(--bg);
+}
+
+.login-card {
+  width: min(400px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 38px 34px;
+  text-align: center;
+}
+
+.logo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(182, 244, 0, 0.32);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 21px;
+  margin-bottom: 16px;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+}
+
+.login-title .dot { color: var(--accent); }
+
+.login-sub {
+  color: var(--soft);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
+
+.form-error {
+  color: #ff8f8f;
+  font-size: 13px;
+  margin: 0 0 14px;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 100px;
+  border: none;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.login-btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #0a0f02;
+  box-shadow: 0 0 22px var(--neon-glow);
+}
+
+.login-btn:disabled { opacity: 0.6; cursor: default; }
+
+.login-foot {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 16px 0 0;
+}

@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADMKRS Creative Strategy Suite - Anleitung fürs Team</title>
+<meta name="description" content="Die ADMKRS Creative Suite Schritt für Schritt: installieren in der Claude-App und in Cowork, dein erstes Briefing machen, alle 17 Skills. Auch wenn du Claude noch nie benutzt hast.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090A; --panel:#0E0E10; --ink:#ECEAE4; --soft:#C9C5BC; --muted:#86837C;
+  --line:rgba(236,234,228,.09); --line-2:rgba(236,234,228,.06);
+  --card:rgba(255,255,255,.022); --card-bd:rgba(236,234,228,.09);
+  --accent:#C6FF3A; --accent-soft:rgba(182,244,0,.12); --neon-2:#B6F400; --neon-grad:linear-gradient(100deg,#C6FF3A 0%,#B6F400 38%,#34D058 100%); --neon-glow:rgba(182,244,0,.32); --lime:#34D058; --good:#8BE08B;
+  --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --r:16px; --maxc:820px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;
+  font-feature-settings:"cv11","ss01";letter-spacing:-0.011em}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(900px 520px at 88% -8%,rgba(182,244,0,.13),transparent 62%),
+             radial-gradient(760px 460px at 2% 8%,rgba(52,208,88,.05),transparent 58%)}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(182,244,0,.28)}
+
+/* ===== shell ===== */
+.shell{position:relative;z-index:1;display:grid;grid-template-columns:272px minmax(0,1fr);max-width:1460px;margin:0 auto}
+.main-pad{padding:0 clamp(24px,5vw,72px)}
+
+/* ===== global top nav (alle Seiten) ===== */
+.gnav{position:sticky;top:0;z-index:50;background:rgba(9,9,10,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.gnav-in{position:relative;display:flex;align-items:center;gap:14px;height:60px;max-width:1460px;margin:0 auto;padding:0 clamp(18px,4vw,34px)}
+.gnav .brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.05em;font-size:15px}
+.gnav .brand .mk{color:var(--accent)}
+.gnav .ver{font-size:10.5px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:2px 8px;letter-spacing:.02em}
+.gnav-links{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:100px;padding:4px}
+.gnav-links a{white-space:nowrap;font-size:13px;font-weight:600;color:var(--muted);padding:6px 15px;border-radius:100px;transition:color .2s,background .2s}
+.gnav-links a:hover{color:var(--ink)}
+.gnav-links a.on{color:var(--ink);background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(182,244,0,.32)}
+.gnav-cta{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--bg);background:var(--ink);border-radius:100px;padding:8px 15px;transition:.2s}
+.gnav-cta:hover{background:var(--accent);color:#0a0f02;box-shadow:0 0 20px var(--neon-glow)}
+@media(max-width:1060px){.gnav-links{position:static;transform:none;margin-left:auto}.gnav-cta{margin-left:0}}
+@media(max-width:820px){.gnav-cta{display:none}.gnav-links a{padding:6px 11px;font-size:12.5px}}
+@media(max-width:920px){.gnav{display:none}}
+section[id]{scroll-margin-top:74px}
+@media(max-width:920px){section[id]{scroll-margin-top:106px}}
+
+/* ===== sidebar (desktop) ===== */
+.side{position:sticky;top:60px;height:calc(100vh - 60px);display:flex;flex-direction:column;
+  padding:28px 22px 28px 34px;border-right:1px solid var(--line)}
+.s-tag{font-size:12px;color:var(--muted);letter-spacing:.01em}
+.s-nav{position:relative;margin-top:34px;flex:1;overflow-y:auto;padding-left:14px}
+.s-nav::-webkit-scrollbar{width:0}
+.rail{position:absolute;left:0;top:0;width:2px;background:var(--line);border-radius:2px;height:100%}
+.thumb{position:absolute;left:-1px;width:4px;border-radius:4px;background:var(--accent);
+  box-shadow:0 0 14px rgba(182,244,0,.5);transition:transform .42s cubic-bezier(.34,1.2,.5,1),height .42s cubic-bezier(.34,1.2,.5,1);height:22px}
+.s-group{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:22px 0 9px}
+.s-group:first-child{margin-top:0}
+.s-link{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);font-weight:500;
+  padding:7px 0;transition:color .22s,transform .22s;line-height:1.3}
+.s-link .idx{font-size:10.5px;font-variant-numeric:tabular-nums;color:var(--line);transition:color .22s;min-width:16px}
+.s-link:hover{color:var(--soft)}
+.s-link.active{color:var(--ink);font-weight:600;transform:translateX(2px)}
+.s-link.active .idx{color:var(--accent)}
+.s-cta{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  font-size:12.5px;font-weight:600;color:var(--soft);border:1px solid var(--card-bd);border-radius:100px;
+  padding:9px 15px;white-space:nowrap;transition:.2s}
+.s-cta .arr{color:var(--accent);transition:transform .2s}
+.s-cta:hover{color:var(--ink);border-color:var(--ink)}
+.s-cta:hover .arr{transform:translateX(2px)}
+
+/* ===== mobile topbar ===== */
+.top{display:none;position:sticky;top:0;z-index:40;background:rgba(9,9,10,.86);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line)}
+.top-row{display:flex;align-items:center;gap:10px;padding:13px 18px}
+.top .mk{color:var(--accent)}
+.top-prog{height:2px;background:var(--accent);width:0;transition:width .15s linear}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:0 18px 12px;scrollbar-width:none}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:none;font-size:12.5px;font-weight:500;color:var(--muted);border:1px solid var(--line);
+  border-radius:100px;padding:6px 13px;white-space:nowrap;transition:.2s}
+.pill.active{color:var(--ink);border-color:var(--accent);background:var(--accent-soft)}
+
+/* ===== content rhythm ===== */
+main{min-width:0}
+.block{padding:clamp(64px,9vh,108px) 0;border-top:1px solid var(--line-2)}
+.block:first-of-type{border-top:0}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.04em;
+  color:var(--accent);text-transform:uppercase}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);opacity:.6}
+h1{font-weight:800;letter-spacing:-.045em;line-height:.99;font-size:clamp(46px,7vw,92px);margin:22px 0 0}
+h1 em{font-style:normal;background:var(--neon-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--accent)}
+h2{font-weight:800;letter-spacing:-.035em;font-size:clamp(30px,4.6vw,50px);line-height:1.02;margin:16px 0 14px}
+h2 .thin{color:var(--muted);font-weight:500}
+.lede{max-width:600px;margin:30px 0 0;font-size:clamp(17px,1.6vw,20px);line-height:1.55;color:var(--soft);font-weight:400}
+.sub{color:var(--soft);font-size:17.5px;max-width:600px;margin:0 0 34px;font-weight:400}
+.muted{color:var(--muted)}
+
+/* hero */
+.hero{padding:clamp(80px,16vh,150px) 0 clamp(60px,9vh,96px)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.hero-meta span{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:500;color:var(--soft);
+  border:1px solid var(--line);border-radius:100px;padding:7px 14px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 9px var(--lime)}
+.cta-row{display:flex;gap:12px;margin-top:38px;flex-wrap:wrap}
+.cta{font-size:14px;font-weight:600;padding:14px 24px;border-radius:100px;transition:.2s}
+.cta.primary{background:var(--ink);color:var(--bg)}.cta.primary:hover{background:var(--accent);box-shadow:0 0 26px var(--neon-glow)}
+.cta.ghost{border:1px solid var(--card-bd);color:var(--ink)}.cta.ghost:hover{border-color:var(--ink);background:rgba(255,255,255,.03)}
+
+/* explainer cards */
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.ex-grid{grid-template-columns:1fr}}
+.ex{border:1px solid var(--card-bd);background:var(--card);border-radius:var(--r);padding:26px 24px;transition:border-color .25s,background .25s}
+.ex:hover{border-color:rgba(182,244,0,.4);background:var(--accent-soft)}
+.ex .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:16px;
+  border:1px solid var(--card-bd);background:rgba(255,255,255,.03)}
+.ex h3{font-weight:700;font-size:19px;margin:0 0 7px;letter-spacing:-.02em}
+.ex p{margin:0;font-size:14.5px;color:var(--soft);line-height:1.55}
+.ex .word{color:var(--accent);font-weight:600}
+
+/* steps */
+.steps{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.step{display:grid;grid-template-columns:46px 1fr;gap:20px;align-items:start;
+  border:1px solid var(--card-bd);background:var(--card);border-radius:var(--r);padding:24px 26px}
+.step .sn{font-weight:800;font-size:17px;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+  color:var(--accent);border:1px solid rgba(182,244,0,.3);background:var(--accent-soft);letter-spacing:-.03em}
+.step h4{margin:8px 0 7px;font-size:18px;font-weight:700;letter-spacing:-.02em}
+.step p{margin:0;font-size:14.5px;color:var(--soft);line-height:1.55}
+.step p + p{margin-top:9px}
+.inline-code{font-family:var(--mono);font-size:12.5px;background:rgba(255,255,255,.05);border:1px solid var(--line);
+  border-radius:6px;padding:2px 7px;color:var(--lime)}
+.steps.plain .step{grid-template-columns:1fr}
+
+/* schematic window */
+.win{border:1px solid var(--card-bd);border-radius:14px;overflow:hidden;background:var(--panel);margin-top:18px;
+  box-shadow:0 30px 70px -36px rgba(0,0,0,.85)}
+.win-bar{display:flex;align-items:center;gap:8px;padding:12px 15px;background:rgba(255,255,255,.025);border-bottom:1px solid var(--line)}
+.win-dot{width:11px;height:11px;border-radius:50%;background:#34343a}
+.win-dot.r{background:#ff5f57}.win-dot.y{background:#febc2e}.win-dot.g{background:#28c840}
+.win-title{margin-left:8px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.win-body{padding:18px;display:flex;flex-direction:column;gap:12px}
+.win-body.tight{padding:15px 16px;gap:9px}
+.msg{max-width:82%;border-radius:13px;padding:11px 15px;font-size:13.5px;line-height:1.5}
+.msg.me{align-self:flex-end;background:var(--accent-soft);border:1px solid rgba(182,244,0,.28)}
+.msg.ai{align-self:flex-start;background:rgba(255,255,255,.04);border:1px solid var(--card-bd)}
+.msg .who{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
+.prompt-line{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:11px;
+  padding:12px 15px;font-family:var(--mono);font-size:12.5px;color:var(--soft)}
+.prompt-line .caret{color:var(--accent);font-weight:700}.prompt-line .ph{color:var(--muted)}
+.cmd{font-family:var(--mono);font-size:13px;color:var(--lime)}.cmd .slash{color:var(--accent)}
+.menu{border:1px solid var(--card-bd);border-radius:11px;overflow:hidden;background:rgba(0,0,0,.28)}
+.menu-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;font-size:13px;border-bottom:1px solid var(--line-2)}
+.menu-item:last-child{border-bottom:0}
+.menu-item.sel{background:var(--accent-soft)}
+.menu-item .nm{font-family:var(--mono);font-size:12.5px}.menu-item .ds{color:var(--muted);font-size:11.5px}
+.badge-ok{font-family:var(--mono);font-size:11px;color:var(--good);border:1px solid rgba(139,224,139,.4);border-radius:100px;padding:3px 10px;white-space:nowrap}
+.docrow{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.03);border:1px solid var(--card-bd);border-radius:11px;padding:13px 15px}
+.docrow .fic{width:34px;height:42px;border-radius:5px;background:linear-gradient(160deg,#2b6cb0,#1a4e8a);display:grid;place-items:center;
+  font-family:var(--mono);font-size:9px;font-weight:700;color:#fff;flex:none}
+.docrow .nm{font-size:13.5px}.docrow .mt{font-size:11.5px;color:var(--muted)}
+.cap{font-size:11.5px;color:var(--muted);margin-top:11px;text-align:center}
+/* settings / skills UI mocks */
+.set-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid var(--card-bd);border-radius:11px;background:rgba(255,255,255,.03)}
+.set-row .si{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:rgba(255,255,255,.04);border:1px solid var(--card-bd);flex:none}
+.set-row .st{flex:1}.set-row .st .nm{font-size:13.5px;font-weight:600}.set-row .st .ds{font-size:11.5px;color:var(--muted)}
+.tgl{width:38px;height:22px;border-radius:100px;background:rgba(255,255,255,.12);position:relative;flex:none;transition:background .2s}
+.tgl::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.tgl.on{background:var(--good)}.tgl.on::after{transform:translateX(16px)}
+.crumb{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.crumb b{color:var(--accent);font-weight:400}
+.drop{border:1.5px dashed var(--card-bd);border-radius:12px;padding:22px 16px;text-align:center;background:rgba(255,255,255,.02)}
+.drop .di{font-size:22px;margin-bottom:6px}.drop .dt{font-size:13px;color:var(--soft)}.drop .dz{font-family:var(--mono);font-size:11.5px;color:var(--lime);margin-top:6px}
+.plus{margin-left:auto;width:26px;height:26px;border-radius:8px;border:1px solid var(--card-bd);display:grid;place-items:center;color:var(--accent);font-weight:600;flex:none}
+
+/* callout */
+.note{display:flex;gap:13px;border:1px solid rgba(52,208,88,.22);background:rgba(52,208,88,.045);
+  border-radius:13px;padding:16px 18px;margin-top:20px;font-size:14.5px;color:var(--soft);line-height:1.55}
+.note .ic{flex:none;color:var(--lime);font-weight:700}
+.note.warn{border-color:rgba(182,244,0,.28);background:var(--accent-soft)}.note.warn .ic{color:var(--accent)}
+
+/* code */
+pre{background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:13px;padding:18px;overflow:auto;margin:0}
+code{font-family:var(--mono);font-size:12.5px;color:var(--soft);line-height:1.8}
+.tok{color:var(--accent)}.com{color:var(--muted)}
+.copywrap{position:relative}
+.copybtn{position:absolute;top:11px;right:11px;font-family:var(--mono);font-size:10.5px;color:var(--muted);
+  background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;transition:.2s}
+.copybtn:hover{color:var(--ink);border-color:var(--ink)}
+
+/* cols */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+@media(max-width:760px){.cols{grid-template-columns:1fr}}
+.h-sm{font-weight:700;font-size:20px;margin:0 0 5px;letter-spacing:-.02em}
+
+/* download */
+.dl-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}
+@media(max-width:760px){.dl-grid{grid-template-columns:1fr}}
+.dl{border:1px solid var(--card-bd);background:var(--card);border-radius:var(--r);padding:26px}
+.dl h3{font-weight:700;font-size:21px;margin:0 0 7px;letter-spacing:-.02em}
+.dl .tag{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+.dl-btn{display:inline-flex;align-items:center;gap:9px;margin-top:18px;background:var(--ink);color:var(--bg);
+  font-family:var(--mono);font-size:13px;font-weight:600;padding:14px 22px;border-radius:100px;transition:.2s}
+.dl-btn:hover{background:var(--accent)}
+.dl-list{margin:16px 0 0;padding:0;list-style:none}
+.dl-list a{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12.5px;
+  color:var(--soft);padding:10px 4px;border-bottom:1px solid var(--line-2);transition:.2s}
+.dl-list a:hover{color:var(--ink);padding-left:8px}.dl-list a:last-child{border-bottom:0}
+.dl-list .arr{color:var(--accent)}
+
+/* skills */
+.grp-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:40px 0 16px}
+.grp-label:first-of-type{margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.card{position:relative;display:flex;flex-direction:column;border:1px solid var(--card-bd);background:var(--card);
+  border-radius:var(--r);padding:24px 24px 22px;transition:transform .25s ease,border-color .25s,background .25s}
+.card:hover{transform:translateY(-3px);border-color:rgba(182,244,0,.45);background:var(--accent-soft)}
+.card .num{position:absolute;top:18px;right:22px;font-weight:800;font-size:30px;color:rgba(236,234,228,.06);transition:color .25s;letter-spacing:-.04em}
+.card:hover .num{color:rgba(182,244,0,.2)}
+.card h3{font-family:var(--mono);font-size:14.5px;margin:0 0 7px;letter-spacing:-.01em}
+.card h3 .slash{color:var(--accent)}
+.card .lead{margin:0 0 14px;font-size:14px;color:var(--soft);max-width:92%;line-height:1.5}
+.card ul.spts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.card ul.spts li{position:relative;padding-left:19px;font-size:13px;color:var(--soft);line-height:1.45}
+.card ul.spts li::before{content:"";position:absolute;left:3px;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.75}
+.card .srel{margin-top:16px;padding-top:13px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:11px;color:var(--muted)}
+.card .srel b{color:var(--lime);font-weight:400}
+
+/* FAQ */
+details{border-bottom:1px solid var(--line-2);padding:18px 2px}
+summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px;letter-spacing:-.02em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accent);font-weight:600;font-size:20px;transition:.2s;line-height:1}
+details[open] summary::after{content:"\2013"}
+details p{margin:13px 0 2px;font-size:14.5px;color:var(--soft);line-height:1.6}
+details code{font-family:var(--mono);font-size:12.5px;color:var(--lime);background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:46px 0 64px;color:var(--muted);font-size:13px}
+.foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;align-items:flex-end}
+.foot-brand{font-weight:800;color:var(--ink);font-size:18px;letter-spacing:.01em}
+.foot-brand .mk{color:var(--accent)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+[data-d="1"]{transition-delay:.07s}[data-d="2"]{transition-delay:.14s}[data-d="3"]{transition-delay:.21s}
+@media(prefers-reduced-motion:reduce){.rv{transition:none;opacity:1;transform:none}.thumb{transition:none}}
+
+/* ===== responsive shell ===== */
+@media(max-width:920px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .top{display:block}
+  .main-pad{padding:0 22px}
+  html{scroll-padding-top:104px}
+}
+</style>
+</head>
+<body>
+
+<!-- global topnav (desktop) -->
+<nav class="gnav"><div class="gnav-in">
+  <a class="brand" href="index.html">ADMKRS<span class="mk">·</span>SUITE<span class="ver">v1.13.0</span></a>
+  <div class="gnav-links">
+    <a href="index.html" class="on">Guide</a>
+    <a href="flow.html">Ablauf</a>
+    <a href="prozess.html">Prozess</a>
+    <a href="styles.html">Ad-Styles</a>
+  </div>
+  <a class="gnav-cta" href="#start">Suite aktivieren →</a>
+</div></nav>
+
+<!-- mobile topbar -->
+<div class="top">
+  <div class="top-row">
+    <span class="foot-brand" style="font-size:15px">ADMKRS<span class="mk">·</span>SUITE</span>
+    <span style="margin-left:auto;display:flex;gap:6px">
+      <a href="prozess.html" style="font-size:11.5px;font-weight:600;color:var(--soft);border:1px solid var(--line);border-radius:100px;padding:4px 11px">Prozess</a>
+      <a href="styles.html" style="font-size:11.5px;font-weight:600;color:var(--soft);border:1px solid var(--line);border-radius:100px;padding:4px 11px">Ad-Styles</a>
+    </span>
+  </div>
+  <div class="pills" id="pills"></div>
+  <div class="top-prog" id="prog"></div>
+</div>
+
+<div class="shell">
+  <!-- sidebar / glossary -->
+  <aside class="side">
+    <div class="s-tag">Creative Strategy Suite · Anleitung fürs Team</div>
+    <nav class="s-nav" id="snav">
+      <span class="rail"></span><span class="thumb" id="thumb"></span>
+      <div class="s-group">Verstehen</div>
+      <a class="s-link" href="#was"><span class="idx">01</span>Was ist das?</a>
+      <div class="s-group">Loslegen</div>
+      <a class="s-link" href="#start"><span class="idx">02</span>Suite aktivieren</a>
+      <a class="s-link" href="#cowork"><span class="idx">03</span>Cowork</a>
+      <a class="s-link" href="#code"><span class="idx">04</span>Claude Code</a>
+      <div class="s-group">Anwenden</div>
+      <a class="s-link" href="#briefing"><span class="idx">05</span>Erstes Briefing</a>
+      <div class="s-group">Material</div>
+      <a class="s-link" href="#download"><span class="idx">06</span>Download</a>
+      <a class="s-link" href="#skills"><span class="idx">07</span>Die 17 Skills</a>
+      <div class="s-group">Hilfe</div>
+      <a class="s-link" href="#faq"><span class="idx">08</span>Häufige Fragen</a>
+    </nav>
+    <a class="s-cta" href="prozess.html">So arbeiten wir<span class="arr">→</span></a>
+  </aside>
+
+  <!-- content -->
+  <main class="main-pad">
+    <span id="top"></span>
+
+    <!-- HERO -->
+    <section class="hero" id="hero" data-nav="was">
+      <div class="eyebrow rv in">Interne Suite · ADMKRS GmbH</div>
+      <h1 class="rv in" data-d="1">ADMKRS Creative<br><em>Strategy Suite.</em></h1>
+      <p class="lede rv in" data-d="2">17 Skills für den ganzen Creative-Workflow - einheitliche Briefings, scharfe Copy, fundierte Strategie und drehfertige UGC-Skripte. <b style="color:var(--ink);font-weight:600">Org-weit bereitgestellt</b>, meist schon aktiv: Du sagst Claude einfach <b style="color:var(--ink);font-weight:600">„Nutze die ADMKRS Creative Suite"</b> oder beschreibst direkt deine Aufgabe - der passende Skill springt an. Kein Command, kein Vorwissen.</p>
+      <div class="hero-meta rv in" data-d="3">
+        <span><span class="dot"></span>17 Skills</span>
+        <span>org-weit bereitgestellt</span>
+        <span>keine Vorkenntnisse</span>
+        <span>Website öffentlich teilbar · Methodik proprietär © ADMKRS</span>
+      </div>
+      <div class="cta-row rv in" data-d="3">
+        <a class="cta primary" href="#start">Einrichtung starten</a>
+        <a class="cta ghost" href="#briefing">Direkt zum Briefing</a>
+      </div>
+    </section>
+
+    <!-- WAS IST DAS -->
+    <section class="block" id="was">
+      <div class="eyebrow rv">In 60 Sekunden</div>
+      <h2 class="rv">Was ist das <span class="thin">überhaupt?</span></h2>
+      <p class="sub rv">Drei Begriffe, dann hast du alles. Kein Technik-Wissen nötig.</p>
+      <div class="ex-grid">
+        <div class="ex rv"><div class="ic">💬</div><h3>Claude</h3><p><span class="word">Der KI-Assistent.</span> Du schreibst ihm wie in einem Chat, er antwortet und erledigt Aufgaben. Als App fürs MacBook/Windows und im Browser.</p></div>
+        <div class="ex rv" data-d="1"><div class="ic">🧩</div><h3>Skills</h3><p><span class="word">Spezialwissen on top.</span> Ein Skill macht Claude zum Experten für eine Aufgabe - ohne Skill rät er, mit Skill folgt er unserem ADMKRS-Vorgehen.</p></div>
+        <div class="ex rv" data-d="2"><div class="ic">⚡</div><h3>Die Suite</h3><p><span class="word">Unsere 17 Skills im Paket.</span> Strategie, Briefings, UGC, Teardown, Reporting, CRO, Compliance - einmal installiert, alle da.</p></div>
+      </div>
+      <div class="note rv"><span class="ic">★</span><div><b>Das Wichtigste:</b> Du musst nichts „programmieren" und nichts einzeln installieren. Die Suite ist über die ADMKRS-Org bereitgestellt - die 17 Skills sind damit einfach <b>da</b>. Du schreibst Claude normal auf Deutsch, was du brauchst, und der passende Skill springt automatisch an.</div></div>
+    </section>
+
+    <!-- LOSLEGEN -->
+    <section class="block" id="start">
+      <div class="eyebrow rv">So einfach geht's</div>
+      <h2 class="rv">Suite <span class="thin">aktivieren</span></h2>
+      <p class="sub rv">Die Suite ist für die ganze ADMKRS-Organisation bereitgestellt - <b style="color:var(--ink);font-weight:600">die 17 Skills kommen automatisch mit</b>. Nichts einzeln installieren, kein Befehl, kein Upload.</p>
+      <div class="steps">
+        <div class="step rv"><div class="sn">1</div><div><h4>Kurz prüfen: ist sie an?</h4><p>Meist ist die Suite schon automatisch aktiv. Falls nicht, erscheint die von ADMKRS bereitgestellte Suite in deinen Claude-<b>Einstellungen</b> - einfach den Toggle <b>an</b>.</p>
+          <div class="win"><div class="win-bar"><span class="win-dot r"></span><span class="win-dot y"></span><span class="win-dot g"></span><span class="win-title">Einstellungen - Plugins</span></div>
+          <div class="win-body tight">
+            <div class="set-row"><div class="si">⚡</div><div class="st"><div class="nm">admkrs-creative-suite</div><div class="ds">17 Skills · von ADMKRS bereitgestellt</div></div><span class="tgl on"></span></div>
+          </div></div>
+          <div class="cap">Schematisch - sobald der Schalter an ist, sind alle 17 Skills da (Chat &amp; Cowork).</div></div></div>
+        <div class="step rv" data-d="1"><div class="sn">2</div><div><h4>Loslegen</h4><p>Das war's. Beschreib Claude einfach deine Aufgabe auf Deutsch (z.B. „mach mir 3 Static-Konzepte für …") - der passende Skill springt automatisch an. Weiter bei <a href="#briefing" style="color:var(--accent)">Dein erstes Briefing</a>.</p></div></div>
+      </div>
+      <div class="note rv"><span class="ic">✦</span><div><b>Noch einfacher - per Satz:</b> Schreib in Cowork einfach <b style="color:var(--ink)">„Nutze die ADMKRS Creative Suite"</b>. Claude erkennt dann automatisch die passenden Skills und die dahinterliegenden MD-Dateien - ganz ohne Command oder <span class="inline-code">/</span>.</div></div>
+      <div class="note rv"><span class="ic">★</span><div>Siehst du die Suite nicht? Dann ist evtl. <b>„Code execution"</b> in deinem Account noch aus (Einstellungen → Capabilities) oder dein Org-Zugang fehlt. <b>Kurz beim Suite-Admin im Team melden.</b> Notfalls einzeln über den <a href="#download" style="color:var(--accent)">Download</a>.</div></div>
+    </section>
+
+    <!-- COWORK -->
+    <section class="block" id="cowork">
+      <div class="eyebrow rv">Weg B · gemeinsam arbeiten</div>
+      <h2 class="rv">In <span class="thin">Cowork</span></h2>
+      <p class="sub rv">Cowork ist Claudes Arbeitsbereich: Claude arbeitet selbstständig an Aufgaben, erstellt Dateien (z.B. unsere docx-Briefings) und läuft in einem geteilten Team-Projekt. Die Suite funktioniert dort genauso.</p>
+      <div class="cols">
+        <div class="steps">
+          <div class="step rv"><div class="sn">1</div><div><h4>Cowork-Projekt öffnen</h4><p>Öffne den <b>Cowork</b>-Bereich und gehe ins Team-Projekt (oder starte ein neues). Hier landen die fertigen Dateien.</p></div></div>
+          <div class="step rv" data-d="1"><div class="sn">2</div><div><h4>Deine Skills sind da</h4><p>Die org-weit bereitgestellte Suite (siehe <a href="#start" style="color:var(--accent)">Suite aktivieren</a>) steht automatisch auch in Cowork bereit - du musst nichts erneut installieren.</p></div></div>
+          <div class="step rv" data-d="2"><div class="sn">3</div><div><h4>Aufgabe stellen → Datei kommt</h4><p>Beschreibe die Aufgabe. Claude erstellt z.B. das <span class="inline-code">.docx</span>-Briefing direkt im Projekt.</p></div></div>
+          <div class="step rv" data-d="2"><div class="sn">4</div><div><h4>In die Kunden-Drive sichern</h4><p><b>Best Practice:</b> Lass Claude das fertige Dokument direkt in <b>Google Drive</b> in den Ordner des Kunden unter <b>„Briefings"</b> legen - statt es nur lokal zu lassen. Geht aus Cowork mit verbundener Drive.</p></div></div>
+        </div>
+        <div>
+          <div class="win rv" data-d="1"><div class="win-bar"><span class="win-dot r"></span><span class="win-dot y"></span><span class="win-dot g"></span><span class="win-title">Cowork - ADMKRS Creatives</span></div>
+          <div class="win-body"><div class="msg me"><span class="who">Du</span>/admkrs-cs-static-briefing - Static-Konzepte für NOVA Protein Coffee, Ziel: Trial-Käufe, ZG Fitness-DACH.</div>
+          <div class="msg ai"><span class="who">Claude · arbeitet</span>Strategie steht. Hooks &amp; 3 Konzepte gebaut. Erstelle das Briefing-Dokument …</div>
+          <div class="docrow"><div class="fic">DOCX</div><div style="flex:1"><div class="nm">260608_NOVA_ProteinCoffee_Statics_DE.docx</div><div class="mt">→ Drive · NOVA / Briefings</div></div><span class="badge-ok">gesichert ✓</span></div></div></div>
+          <div class="cap">Dateiname nach Konvention, abgelegt im Kunden-Ordner in der Drive.</div>
+        </div>
+      </div>
+      <div class="note rv"><span class="ic">★</span><div><b>App oder Cowork?</b> Schnell ein Briefing/Hooks → <b>Claude-App</b>. Größere Aufgabe, mehrere Dateien, im Team sichtbar → <b>Cowork</b>. Die Skills sind in beiden identisch.</div></div>
+    </section>
+
+    <!-- CLAUDE CODE -->
+    <section class="block" id="code">
+      <div class="eyebrow rv">Optional · nur Claude Code</div>
+      <h2 class="rv">Für <span class="thin">Entwickler</span></h2>
+      <p class="sub rv"><b style="color:var(--ink);font-weight:600">Das brauchst du nur, wenn du mit Claude Code (Entwickler-CLI/IDE) arbeitest.</b> Nutzt du die normale Claude-App oder Cowork? Dann ist hier <b style="color:var(--ink);font-weight:600">nichts zu tun</b> - die Suite ist org-weit schon da (<a href="#start" style="color:var(--accent)">Suite aktivieren</a>). Niemand muss diesen Schritt zusätzlich machen.</p>
+      <details class="rv">
+        <summary>Claude-Code-Installation anzeigen (für Devs)</summary>
+        <div style="margin-top:18px">
+          <div class="steps">
+            <div class="step"><div class="sn">1</div><div><h4>Marketplace einmalig hinzufügen</h4>
+              <div class="prompt-line" style="margin-top:4px"><span class="caret">›</span><span class="cmd"><span class="slash">/plugin</span> marketplace add Burakaz/admkrs-creative-suite</span></div></div></div>
+            <div class="step"><div class="sn">2</div><div><h4>Suite installieren</h4>
+              <div class="prompt-line" style="margin-top:4px"><span class="caret">›</span><span class="cmd"><span class="slash">/plugin</span> install admkrs-creative-suite</span></div>
+              <p style="margin-top:11px">Alle 17 Skills aktiv. Aufruf z.B. <span class="inline-code">/admkrs-cs-creative-briefing</span> - oder tippe <span class="inline-code">/admkrs</span>, dann erscheinen alle.</p></div></div>
+          </div>
+          <div class="note"><span class="ic">★</span><div>Das Repo ist <b>öffentlich</b> - <span class="inline-code">marketplace add</span> funktioniert für jeden, keine Einladung nötig. Updates kommen über den Marketplace automatisch.</div></div>
+        </div>
+      </details>
+    </section>
+
+    <!-- BRIEFING -->
+    <section class="block" id="briefing">
+      <div class="eyebrow rv">Der wichtigste Workflow</div>
+      <h2 class="rv">Dein erstes <span class="thin">Briefing</span></h2>
+      <p class="sub rv">Das machst du am häufigsten. Die Regel: <b style="color:var(--ink);font-weight:600">je konkreter dein Input, desto besser der Output.</b> Claude erfindet keine Zahlen oder Claims - gib ihm die echten.</p>
+      <div class="cols">
+        <div class="rv">
+          <h3 class="h-sm">Was Claude von dir braucht</h3>
+          <p class="muted" style="font-size:14px;margin:0 0 16px">Hast du nicht alles? Egal - Claude fragt nach, was fehlt.</p>
+          <div class="steps">
+            <div class="step"><div class="sn">A</div><div><h4>Marke &amp; Produkt</h4><p>Name, was es ist, Preis, was es besser macht als andere.</p></div></div>
+            <div class="step"><div class="sn">B</div><div><h4>Ziel &amp; Zielgruppe</h4><p>Was die Anzeige bewirken soll (Trial, Kauf, Leads) und für wen - so konkret wie möglich.</p></div></div>
+            <div class="step"><div class="sn">C</div><div><h4>Format &amp; Plattform</h4><p>Static, Carousel, Motion, UGC-Video? Meta, Google, TikTok? Wenn unklar, schlägt Claude was vor.</p></div></div>
+            <div class="step"><div class="sn">D</div><div><h4>Fakten &amp; Angebot</h4><p>Echte Claims, Studien, Bewertungen, das Offer. 1:1, nichts erfunden.</p></div></div>
+          </div>
+        </div>
+        <div class="rv" data-d="1">
+          <h3 class="h-sm">Copy-Paste-Vorlage</h3>
+          <p class="muted" style="font-size:14px;margin:0 0 16px">Kopier das, füll deine Infos ein, ab damit in Claude.</p>
+          <div class="copywrap"><button class="copybtn" data-copy="brief">kopieren</button>
+          <pre id="brief"><code><span class="tok">/admkrs-cs-static-briefing</span>
+
+<span class="com"># Marke &amp; Produkt</span>
+NOVA - Protein Coffee, 24 g Protein, 90 kcal.
+12er-Pack 29,90 €. USP: schmeckt wie Latte,
+kein Kreide-Aftertaste.
+
+<span class="com"># Ziel &amp; Zielgruppe</span>
+Ziel: Trial-Käufe (Erstbestellung).
+ZG: 25–40, fitnessaffin, DACH, trinkt
+täglich Kaffee, will mehr Protein.
+
+<span class="com"># Format &amp; Plattform</span>
+3 Static-Konzepte für Meta (Feed + Story).
+
+<span class="com"># Fakten &amp; Offer</span>
+4,8★ aus 1.200 Bewertungen.
+Offer: 20% auf die Erstbestellung.</code></pre></div>
+          <div class="note" style="margin-top:16px"><span class="ic">✎</span><div>Auf Deutsch schreiben ist völlig okay - Claude antwortet in deiner Sprache. Keine „perfekten" Befehle nötig: nennst du nur das Format (Static, Motion, Video, UGC), wählt Claude automatisch die passende Format-Tür - hier <span class="inline-code">static-briefing</span>.</div></div>
+        </div>
+      </div>
+      <h3 class="h-sm rv" style="margin-top:40px">Was rauskommt</h3>
+      <p class="muted rv" style="font-size:14px;margin:0 0 8px">Ein fertiges Briefing im ADMKRS-Stil - Strategie, Hooks (3 pro Konzept), Copy, Sub-Claims, CTA und bei Video ein time-coded Storyboard.</p>
+      <div class="win rv"><div class="win-bar"><span class="win-dot r"></span><span class="win-dot y"></span><span class="win-dot g"></span><span class="win-title">Ergebnis</span></div>
+      <div class="win-body"><div class="msg ai"><span class="who">Claude</span>Hier sind 3 Static-Konzepte für NOVA. Jedes mit 3 Hook-Varianten zum Testen, Copy, Sub-Claim und CTA. Strategie &amp; Angle-Begründung oben im Dokument.</div>
+      <div class="docrow"><div class="fic">DOCX</div><div style="flex:1"><div class="nm">260608_NOVA_ProteinCoffee_Statics_DE.docx</div><div class="mt">3 Konzepte · 9 Hooks · ADMKRS-Format</div></div><span class="badge-ok">zum Download ✓</span></div></div></div>
+      <div class="note warn rv"><span class="ic">!</span><div><b>Bevor etwas live geht:</b> jage Creatives durch <span class="inline-code">/admkrs-cs-ad-compliance-check</span> (Meta-Standards + EU/DACH). Und: nichts wird gepostet, gesendet oder skaliert ohne deine Freigabe - die Skills liefern Entwürfe, du entscheidest.</div></div>
+    </section>
+
+    <!-- DOWNLOAD -->
+    <section class="block" id="download">
+      <div class="eyebrow rv">Die Skill-Dateien</div>
+      <h2 class="rv">Download</h2>
+      <p class="sub rv">Meist brauchst du das gar nicht - über die <b style="color:var(--ink);font-weight:600">Team-Org</b> hast du die Skills automatisch (siehe <a href="#start" style="color:var(--accent)">Suite aktivieren</a>). Nur als Fallback (nicht in der Org, oder einzelne Skills) lädst du sie hier herunter und ziehst sie per <b>Customize → Skills → „+" → „Upload a skill"</b> rein - eine ZIP = ein Skill.</p>
+      <div class="note rv" style="margin:0 0 26px"><span class="ic">★</span><div>Die Dateien liegen als <b>GitHub-Release</b> (öffentliches Repo) - Download ohne Login. Die Links öffnen GitHub. Empfohlen bleibt aber der <b>Plugin-Weg</b> oben (aktualisiert sich automatisch).</div></div>
+      <div class="dl-grid">
+        <div class="dl rv" data-d="1"><div class="tag">Für App &amp; Cowork</div><h3>Skill für Skill</h3>
+          <p class="muted" style="font-size:14px;margin:7px 0 10px">Jede ZIP einzeln über <b>Customize → Skills → Upload a skill</b> hochladen. Nimm nur, was du brauchst.</p>
+          <ul class="dl-list">
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-creative-strategy-os.zip" download>admkrs-cs-creative-strategy-os <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-creative-briefing.zip" download>admkrs-cs-creative-briefing <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-ugc-briefing.zip" download>admkrs-cs-ugc-briefing <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-creative-teardown.zip" download>admkrs-cs-creative-teardown <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-performance-reporting.zip" download>admkrs-cs-performance-reporting <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-landing-page-cro.zip" download>admkrs-cs-landing-page-cro <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-offer-promo-strategy.zip" download>admkrs-cs-offer-promo-strategy <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-ugc-creator-ops.zip" download>admkrs-cs-ugc-creator-ops <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-google-cross-channel.zip" download>admkrs-cs-google-cross-channel <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-pitch-teardown.zip" download>admkrs-cs-pitch-teardown <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-ad-compliance-check.zip" download>admkrs-cs-ad-compliance-check <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-static-briefing.zip" download>admkrs-cs-static-briefing <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-motion-ad-briefing.zip" download>admkrs-cs-motion-ad-briefing <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-video-ad-briefing.zip" download>admkrs-cs-video-ad-briefing <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-creative-verifier.zip" download>admkrs-cs-creative-verifier <span class="arr">↓</span></a></li>
+            <li><a href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-cs-localization-briefing.zip" download>admkrs-cs-localization-briefing <span class="arr">↓</span></a></li>
+          </ul></div>
+        <div class="dl rv"><div class="tag">Für Claude Code / offline</div><h3>Die ganze Suite (.zip)</h3>
+          <p class="muted" style="font-size:14px;margin:7px 0 0">Alle 17 Skills + Manifeste, README &amp; Lizenz in einem Paket - für Claude Code (lokaler Marketplace) oder zum Archivieren. <b>Nicht</b> für den App-Upload (der will einzelne Skills).</p>
+          <a class="dl-btn" href="https://github.com/Burakaz/admkrs-creative-suite/releases/latest/download/admkrs-creative-suite.zip" download>↓ admkrs-creative-suite.zip</a></div>
+      </div>
+      <div class="note rv"><span class="ic">★</span><div><span class="inline-code">admkrs-cs-creative-briefing</span> und <span class="inline-code">admkrs-cs-ugc-briefing</span> erzeugen Word-Dokumente. Bei lokaler Nutzung einmalig im jeweiligen <span class="inline-code">assets/</span>-Ordner <span class="inline-code">npm install</span>. In der App/Cowork passiert das automatisch.</div></div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="block" id="skills">
+      <div class="eyebrow rv">Nachschlagen</div>
+      <h2 class="rv">Die 17 Skills - <span class="thin">was jeder macht</span></h2>
+      <p class="sub rv">Du beschreibst einfach deine Aufgabe - der passende Skill springt automatisch an (in Claude Code auch direkt per <span class="inline-code">/name</span>). Sie kennen sich gegenseitig: das Strategy-OS dirigiert, die anderen liefern.</p>
+
+      <div class="grp-label rv">Strategie &amp; Output</div>
+      <div class="grid">
+        <div class="card rv"><div class="num">01</div><h3><span class="slash">/</span>admkrs-cs-creative-strategy-os</h3><p class="lead">Das Vorgehen als System - neue Brand von Tag 1 bis zum skalierten Test-Motor.</p><ul class="spts"><li>Onboarding &amp; Account-Audit einer Brand</li><li>Creative-Diversity &amp; Test-Architektur (60/30/10, ASC/Cost-Cap)</li><li>Diagnose → Iterate → Scale + Reporting-Cadence</li></ul><div class="srel">→ dirigiert <b>alle anderen Skills</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">02</div><h3><span class="slash">/</span>admkrs-cs-creative-briefing</h3><p class="lead">Schreibt das fertige Briefing als docx im ADMKRS-Stil.</p><ul class="spts"><li>3 Konzepte mit je 3 Hooks (Scroll-Stop-Tests)</li><li>Copy, Sub-Claims, CTA + time-coded Storyboards</li><li>Hook-, Framework- &amp; Format-Bibliothek (Video + Static)</li></ul><div class="srel">→ zieht <b>offer-promo · google · compliance</b></div></div>
+        <div class="card rv"><div class="num">03</div><h3><span class="slash">/</span>admkrs-cs-ugc-briefing</h3><p class="lead">Komplettes UGC-Creator-Briefing als docx (B4) - für Creator <em>und</em> Kunden.</p><ul class="spts"><li>Brand-Vorstellung + Strategie/KPI-Layer in einem</li><li>Virale Hook-Tricks + Storytelling-Frameworks je Awareness</li><li>Drehfertige time-coded Scripts (3 Hooks · 1 Body)</li></ul><div class="srel">→ mit <b>ugc-ops · compliance</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">04</div><h3><span class="slash">/</span>admkrs-cs-creative-teardown</h3><p class="lead">Fremde &amp; eigene Gewinner-Ads systematisch zerlegen.</p><ul class="spts"><li>6-Pass-Teardown-Methode</li><li>Meta Ad Library lesen (Longevity = Winner-Signal)</li><li>Swipe-File mit übertragbaren Insights</li></ul><div class="srel">→ speist <b>briefing</b> &amp; das <b>strategy-os-Audit</b></div></div>
+      </div>
+
+      <div class="grp-label rv">Analyse &amp; Daten</div>
+      <div class="grid">
+        <div class="card rv"><div class="num">05</div><h3><span class="slash">/</span>admkrs-cs-performance-reporting</h3><p class="lead">Reports mit Learnings &amp; Entscheidungen statt Vanity-Metriken.</p><ul class="spts"><li>Metrik-Stack: Hook · Hold · CTR · CVR · ROAS</li><li>Profit/MER &amp; Attribution 2026 korrekt einordnen</li><li>Campaign-Tracker-Template + Review-Cadence</li></ul><div class="srel">→ mit <b>strategy-os · teardown</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">06</div><h3><span class="slash">/</span>admkrs-cs-landing-page-cro</h3><p class="lead">Landingpages auf Conversion briefen &amp; auditieren - evidenzbasiert.</p><ul class="spts"><li>Message-Match: Ad → Page durchziehen</li><li>Core Web Vitals, Checkout- &amp; Form-Friction</li><li>Quellen: Baymard, NNGroup, web.dev</li></ul><div class="srel">→ Diagnose <b>CTR hoch / CVR niedrig</b> aus dem Reporting</div></div>
+      </div>
+
+      <div class="grp-label rv">Conversion &amp; Angebot</div>
+      <div class="grid">
+        <div class="card rv"><div class="num">07</div><h3><span class="slash">/</span>admkrs-cs-offer-promo-strategy</h3><p class="lead">Offers &amp; Promos margenbewusst designen statt blind rabattieren.</p><ul class="spts"><li>% vs € vs Bundle vs Free-Shipping vs Gift wählen</li><li>Break-even-Math &amp; Free-Shipping-Schwelle rechnen</li><li>Promo-Kalender, Discount-Fatigue vermeiden</li></ul><div class="srel">→ mit <b>briefing</b> (Offer-Static) &amp; <b>landing-page</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">08</div><h3><span class="slash">/</span>admkrs-cs-ugc-creator-ops</h3><p class="lead">Die Operations rund um Creator-Content.</p><ul class="spts"><li>Creator sourcen &amp; briefen</li><li>Meta Partnership Ads einrichten (ex Whitelisting, Hub 2026)</li><li>Nutzungsrechte &amp; EU-Kennzeichnung sauber regeln</li></ul><div class="srel">→ mit <b>ugc-briefing</b></div></div>
+      </div>
+
+      <div class="grp-label rv">Channel, Wachstum &amp; Schutz</div>
+      <div class="grid">
+        <div class="card rv"><div class="num">09</div><h3><span class="slash">/</span>admkrs-cs-google-cross-channel</h3><p class="lead">Creatives für Google briefen - mit exakten 2026-Specs.</p><ul class="spts"><li>Demand Gen · Performance Max · YouTube</li><li>Asset-Counts, Zeichenlimits, Ratios, Video-Längen</li><li>Meta-Creative auf Google adaptieren</li></ul><div class="srel">→ mit <b>briefing · strategy-os</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">10</div><h3><span class="slash">/</span>admkrs-cs-pitch-teardown</h3><p class="lead">Neukunden über audit- &amp; teardown-geführtes Selling gewinnen.</p><ul class="spts"><li>Prospect-Account + Ad-Library auditieren</li><li>Free Teardown als Sales-Asset bauen</li><li>Proposal &amp; Pitch überzeugend strukturieren</li></ul><div class="srel">→ nutzt <b>teardown</b> (Methode) &amp; <b>reporting</b></div></div>
+        <div class="card rv"><div class="num">11</div><h3><span class="slash">/</span>admkrs-cs-ad-compliance-check</h3><p class="lead">Creatives prüfen, bevor sie live gehen - der Guardrail.</p><ul class="spts"><li>Meta Advertising Standards 2026</li><li>EU/DACH-Recht: Health-, Finance-, Personal-Attributes-Claims</li><li>AI-Disclosure, Before/After, Testimonials</li></ul><div class="srel">→ läuft <b>vor jedem Launch</b></div></div>
+      </div>
+
+      <div class="grp-label rv">Format-Türen <span style="color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0">· gleiche Engine, ein Format pro Tür</span></div>
+      <div class="grid">
+        <div class="card rv"><div class="num">12</div><h3><span class="slash">/</span>admkrs-cs-static-briefing</h3><p class="lead">Format-Tür für Static- &amp; Carousel-Ads.</p><ul class="spts"><li>Strategie-Layer → Briefing-Tabelle (1 Zeile/Static)</li><li>Offer-Static = Effizienz-Hebel</li><li>nutzt die creative-briefing-Engine, nur auf Static gescoped</li></ul><div class="srel">→ Engine: <b>creative-briefing</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">13</div><h3><span class="slash">/</span>admkrs-cs-motion-ad-briefing</h3><p class="lead">Format-Tür für Motion Ads - <b>VO-First</b>.</p><ul class="spts"><li>VO-Script (Spine) führt, Storyboard mappt auf die VO-Beats</li><li>kinetische Typo / Motion-Graphics / faceless</li><li>gesprochener Take statt Stakkato</li></ul><div class="srel">→ Engine: <b>creative-briefing</b></div></div>
+        <div class="card rv"><div class="num">14</div><h3><span class="slash">/</span>admkrs-cs-video-ad-briefing</h3><p class="lead">Format-Tür für gedrehte Video-Ads (Talking-Head, Studio, VSL, Demo).</p><ul class="spts"><li>time-coded Script/Shotlist</li><li>gesprochener Flow, sound-off-tauglich</li><li>reines UGC → <span class="inline-code">ugc-briefing</span></li></ul><div class="srel">→ Engine: <b>creative-briefing</b></div></div>
+        <div class="card rv" data-d="1"><div class="num">17</div><h3><span class="slash">/</span>admkrs-cs-ad-psychology</h3><p class="lead">Kaufpsychologie: warum Menschen kaufen, übersetzt in Angles und On-Creative-Elemente.</p><ul class="spts"><li>Messy-Middle-Modell: Explore- vs. Evaluate-Modus</li><li>6 Kauf-Biases mit Effektstärken (Social Proof top)</li><li>Bias → Badge/Review/Award-Element, Nudge statt Sludge</li></ul><div class="srel">→ speist <b>strategy-os</b> + <b>briefing</b></div></div>
+      </div>
+
+      <div class="grp-label rv">Abnahme &amp; Lokalisierung <span style="color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0">· Gate vor Launch, Sprachversionen nach Freigabe</span></div>
+      <div class="grid">
+        <div class="card rv"><div class="num">15</div><h3><span class="slash">/</span>admkrs-cs-creative-verifier</h3><p class="lead">Abnahme-Gate: fertige Creatives gegen das Briefing + Handwerk prüfen, bevor sie raus gehen.</p><ul class="spts"><li>Briefing-Treue · Hook-Wirksamkeit</li><li>48-Punkte-Designcheck · Marken-Do's&amp;Don'ts</li><li>läuft vor <span class="inline-code">ad-compliance-check</span></li></ul><div class="srel">→ Gate vor Launch</div></div>
+        <div class="card rv" data-d="1"><div class="num">16</div><h3><span class="slash">/</span>admkrs-cs-localization-briefing</h3><p class="lead">Übersetzungs-/Lokalisierungs-Briefing: freigegebenes DE-Creative + Glossar + Zielsprache → .docx für internationale Teams.</p><ul class="spts"><li>Struktur englisch, Copy DE → native Übersetzung (nie wörtlich)</li><li>Motion im 2-Spalten-Format (On-Screen · Voice-Over)</li><li>sprach-agnostisch (NL/FR/ES/…), Glossar bindend</li></ul><div class="srel">→ Engine: <b>creative-briefing</b></div></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="block" id="faq">
+      <div class="eyebrow rv">Wenn was hakt</div>
+      <h2 class="rv">Häufige <span class="thin">Fragen</span></h2>
+      <div class="rv" style="margin-top:22px">
+        <details><summary>In meiner Claude-App gibt es kein <code>/plugin</code>!</summary><p>Brauchst du auch nicht. <code>/plugin</code> gibt es nur in <b>Claude Code</b> (Entwickler-Tool). In der normalen App/Cowork ist die Suite <b>org-weit bereitgestellt</b> und damit einfach da - du musst sie höchstens einmal einschalten (siehe <a href="#start">Suite aktivieren</a>). Manuell hochladen ist nur ein Fallback.</p></details>
+        <details><summary>Beim Upload passiert nichts / „Skills" fehlt im Menü</summary><p>Dann ist die Skills-Funktion noch aus. Geh in die <b>Einstellungen → Capabilities</b> und aktiviere <b>„Code execution and file creation"</b>. Bei Team/Enterprise muss das der Org-Owner in den Org-Settings freigeben.</p></details>
+        <details><summary>Welche Datei lade ich hoch - die große Suite-ZIP?</summary><p>Nein. Für den App-Upload nimmst du die <b>einzelnen</b> Skill-ZIPs (z.B. <code>admkrs-cs-creative-briefing.zip</code>) - eine ZIP = ein Skill. Die große Suite-ZIP ist nur für Claude Code / zum Archivieren.</p></details>
+        <details><summary>Muss ich Befehle exakt tippen?</summary><p>In der App gar nicht - du beschreibst deine Aufgabe normal auf Deutsch, der Skill springt automatisch an. Nur in Claude Code sollten die zwei <code>/plugin</code>-Zeilen genau stimmen.</p></details>
+        <details><summary>Bekomme ich Updates automatisch?</summary><p><b>Org-weit bereitgestellt</b> (der Normalfall): ja - der Suite-Admin aktualisiert zentral, du musst nichts tun. In <b>Claude Code</b>: ja (Plugin-Installation aktualisiert sich). Nur beim <b>manuellen ZIP-Upload</b> (Fallback): bei größeren Updates die neue Skill-ZIP nochmal hochladen. Der Suite-Admin sagt im Team Bescheid, wenn's eine neue Version gibt.</p></details>
+        <details><summary>Sind hier echte Kundendaten drin?</summary><p>Nein. Alle Beispiele nutzen die fiktive Marke „NOVA". Kundenspezifische Karten (z.B. Verifier-Do's&amp;Don'ts) liegen in der internen Ablage und werden zur Laufzeit mitgegeben, nicht im Repo. Die Suite enthält unsere Methodik, keine Kundendaten.</p></details>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot-in">
+        <div><div class="foot-brand">ADMKRS<span class="mk">·</span>SUITE</div><div style="margin-top:8px">Proprietär · © 2026 ADMKRS GmbH, München · v1.13.0 · interner Gebrauch</div></div>
+        <div style="text-align:right">Performance Marketing &amp; High-Quality Creative<br><span class="muted">erstellt von und für ADMKRS · © alle Rechte vorbehalten</span></div>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script>
+// reveal
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));
+
+// copy
+document.querySelectorAll('.copybtn').forEach(b=>b.addEventListener('click',()=>{
+  const el=document.getElementById(b.dataset.copy);
+  navigator.clipboard.writeText(el.innerText).then(()=>{const t=b.textContent;b.textContent='kopiert ✓';setTimeout(()=>b.textContent=t,1600)});
+}));
+
+// build mobile pills from sidebar links (nur In-Page-Anker; externe Links wie prozess.html ausschließen)
+const links=[...document.querySelectorAll('.s-link')].filter(a=>(a.getAttribute('href')||'').startsWith('#'));
+const pillWrap=document.getElementById('pills');
+const sectionIds=links.map(a=>a.getAttribute('href').slice(1));
+sectionIds.forEach((id,i)=>{const a=document.createElement('a');a.className='pill';a.href='#'+id;a.dataset.id=id;a.textContent=links[i].textContent.replace(/^\d+/,'').trim();pillWrap.appendChild(a);});
+const pills=[...pillWrap.querySelectorAll('.pill')];
+
+// scrollspy + moving rail thumb
+const thumb=document.getElementById('thumb');
+function setActive(id){
+  links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));
+  pills.forEach(p=>p.classList.toggle('active',p.dataset.id===id));
+  const act=links.find(a=>a.getAttribute('href')==='#'+id);
+  if(act&&thumb){thumb.style.transform='translateY('+act.offsetTop+'px)';thumb.style.height=act.offsetHeight+'px';}
+  const ap=pills.find(p=>p.dataset.id===id);
+  if(ap)ap.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+}
+const spy=new IntersectionObserver((es)=>{
+  es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id==='hero'?'was':e.target.id);});
+},{rootMargin:'-45% 0px -50% 0px'});
+['hero',...sectionIds].forEach(id=>{const el=document.getElementById(id);if(el)spy.observe(el);});
+setActive('was');
+
+// mobile progress bar
+const prog=document.getElementById('prog');
+addEventListener('scroll',()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;if(prog)prog.style.width=p+'%';},{passive:true});
+addEventListener('resize',()=>{const a=links.find(x=>x.classList.contains('active'));if(a&&thumb){thumb.style.transform='translateY('+a.offsetTop+'px)';thumb.style.height=a.offsetHeight+'px';}});
+</script>
+</body>
+</html>

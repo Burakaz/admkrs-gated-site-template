@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Der Ablauf, ADMKRS Creative Strategy Suite</title>
+<meta name="description" content="Die ADMKRS Creative Suite als interaktive Prozess-Map: der ganze Creative-Workflow von der Strategie bis zum Reporting als eine Linie, zoombar, mit Klick-Details, und welcher der 17 Skills wo zum Einsatz kommt.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090A; --panel:#0E0E10; --ink:#ECEAE4; --soft:#C9C5BC; --muted:#86837C;
+  --line:rgba(236,234,228,.09); --line-2:rgba(236,234,228,.06);
+  --card:rgba(255,255,255,.022); --card-bd:rgba(236,234,228,.09);
+  --accent:#C6FF3A; --accent-soft:rgba(182,244,0,.12); --neon-2:#B6F400; --neon-grad:linear-gradient(100deg,#C6FF3A 0%,#B6F400 38%,#34D058 100%); --neon-glow:rgba(182,244,0,.32); --lime:#34D058; --good:#8BE08B;
+  --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --r:16px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow:hidden;font-feature-settings:"cv11","ss01";letter-spacing:-0.011em;
+  height:100vh;height:100dvh;display:flex;flex-direction:column}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(900px 520px at 88% -8%,rgba(182,244,0,.13),transparent 62%),
+             radial-gradient(760px 460px at 2% 8%,rgba(52,208,88,.05),transparent 58%)}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(182,244,0,.28)}
+
+/* top, globale Menüleiste (identisch auf allen Seiten) */
+.gnav{position:sticky;top:0;z-index:50;background:rgba(9,9,10,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.gnav-in{position:relative;display:flex;align-items:center;gap:14px;height:60px;max-width:1460px;margin:0 auto;padding:0 clamp(18px,4vw,34px)}
+.gnav .brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.05em;font-size:15px}
+.gnav .brand .mk{color:var(--accent)}
+.gnav .ver{font-size:10.5px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:100px;padding:2px 8px;letter-spacing:.02em}
+.gnav-links{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:100px;padding:4px}
+.gnav-links a{white-space:nowrap;font-size:13px;font-weight:600;color:var(--muted);padding:6px 15px;border-radius:100px;transition:color .2s,background .2s}
+.gnav-links a:hover{color:var(--ink)}
+.gnav-links a.on{color:var(--ink);background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(182,244,0,.32)}
+.gnav-cta{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--bg);background:var(--ink);border-radius:100px;padding:8px 15px;transition:.2s}
+.gnav-cta:hover{background:var(--accent);color:#0a0f02;box-shadow:0 0 20px var(--neon-glow)}
+@media(max-width:1060px){.gnav-links{position:static;transform:none;margin-left:auto}.gnav-cta{margin-left:0}}
+@media(max-width:820px){.gnav-cta{display:none}.gnav-links a{padding:6px 11px;font-size:12.5px}}
+@media(max-width:460px){.gnav .ver{display:none}.gnav .brand{font-size:13.5px}}
+
+/* canvas: vollbild unter dem menü */
+.stagewrap{position:relative;z-index:1;flex:1;min-height:0;width:100%}
+.stage{position:relative;height:100%;width:100%;
+  background:radial-gradient(1300px 760px at 50% -6%,rgba(182,244,0,.06),transparent 60%),var(--panel);
+  overflow:hidden;cursor:grab;touch-action:none}
+.stage.drag{cursor:grabbing}
+.stage svg{display:block;width:100%;height:100%}
+#cam{will-change:transform}
+
+/* schwebende overlays auf dem canvas */
+.ovl{position:absolute;z-index:7;pointer-events:none}
+.ovl-tl{top:clamp(14px,2.2vh,22px);left:clamp(16px,3vw,30px);max-width:min(540px,62vw)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--accent);text-transform:uppercase}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--accent);opacity:.6}
+.ovl-tl h1{font-weight:800;letter-spacing:-.035em;line-height:1.05;font-size:clamp(22px,2.7vw,33px);margin:10px 0 0}
+.ovl-tl h1 em{font-style:normal;color:var(--accent)}
+.ovl-tl .lede{margin:9px 0 0;font-size:13.5px;line-height:1.5;color:var(--soft);max-width:430px}
+.ovl-bl{bottom:clamp(12px,2vh,18px);left:clamp(16px,3vw,30px);max-width:min(880px,72vw);
+  display:flex;flex-wrap:wrap;align-items:center;gap:9px 20px}
+.ovl-bl .lg{display:flex;flex-wrap:wrap;gap:7px 15px}
+.ovl-bl .lg span{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--soft)}
+.ovl-bl .lg i{width:18px;height:10px;border-radius:3px;display:inline-block;flex:none}
+.ovl-bl .lg i.ln{height:0;border-top:2px dashed var(--lime);border-radius:0}
+.ovl-bl a{pointer-events:auto;font-size:12.5px;font-weight:600;color:var(--soft);border:1px solid var(--card-bd);
+  border-radius:100px;padding:7px 14px;background:rgba(12,12,14,.55);backdrop-filter:blur(8px);transition:.2s}
+.ovl-bl a:hover{color:var(--ink);border-color:var(--ink)}
+
+/* controls */
+.ctrls{position:absolute;right:14px;bottom:14px;display:flex;gap:6px;z-index:6}
+.ctrls button{width:38px;height:38px;border-radius:10px;border:1px solid var(--card-bd);background:rgba(14,14,16,.82);
+  backdrop-filter:blur(8px);color:var(--soft);font-size:18px;font-weight:600;cursor:pointer;transition:.18s;
+  display:flex;align-items:center;justify-content:center;line-height:1}
+.ctrls button:hover{color:var(--ink);border-color:var(--accent);background:var(--accent-soft)}
+.hint{position:absolute;right:14px;top:14px;z-index:6;font-size:11.5px;color:var(--muted);
+  background:rgba(14,14,16,.7);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:100px;padding:6px 13px}
+.hint b{color:var(--soft);font-weight:600}
+
+/* svg, phase-zonen */
+.zonelab{font:700 11px var(--font);letter-spacing:.2em;text-transform:uppercase}
+.zonenum{font:700 10px var(--font);fill:var(--muted);letter-spacing:.12em}
+
+/* svg, verbinder */
+.lnk{fill:none;stroke:rgba(236,234,228,.26);stroke-width:2.25;transition:stroke .22s,opacity .22s}
+.lnk.entry{stroke:rgba(236,234,228,.3);stroke-dasharray:4 5}
+.lnk.loop{stroke:rgba(52,208,88,.5);stroke-dasharray:7 7}
+.lnk.hot{stroke:var(--accent)}
+.lnk.faded{opacity:.22}
+.looplab{font:600 12px var(--font);fill:var(--lime);letter-spacing:.01em}
+
+/* svg, stationen */
+.st{cursor:pointer;outline:none}
+.st .bx{fill:rgba(255,255,255,.026);stroke:var(--card-bd);stroke-width:1;transition:stroke .22s,fill .22s}
+.st .glow{fill:none;stroke:var(--accent);stroke-width:1.75;opacity:0;transition:opacity .22s}
+.st:hover .bx{fill:rgba(182,244,0,.05);stroke:rgba(182,244,0,.42)}
+.st:hover .glow,.st.sel .glow,.st:focus-visible .glow{opacity:1}
+.st.sel .bx{fill:rgba(182,244,0,.09);stroke:transparent}
+.st .badge{fill:rgba(182,244,0,.13);stroke:rgba(182,244,0,.3);stroke-width:1}
+.st .bnum{font:800 13px var(--font);fill:var(--accent);text-anchor:middle}
+.st .ti{font:800 17px var(--font);fill:var(--ink)}
+.st .sub{font:500 12.5px var(--font);fill:var(--soft)}
+.st .chip-bx{fill:rgba(182,244,0,.1);stroke:rgba(182,244,0,.24);stroke-width:1}
+.st .chip-tx{font:700 10.5px var(--font);fill:var(--accent);letter-spacing:.01em}
+.st:hover .glow{opacity:1}
+/* mensch-station (kein skill) */
+.st.people .badge{fill:rgba(236,234,228,.08);stroke:var(--line)}
+.st.people .bnum{fill:var(--soft)}
+.st.people .chip-bx{fill:rgba(236,234,228,.05);stroke:var(--line)}
+.st.people .chip-tx{fill:var(--muted)}
+/* einstieg (einmalig, gestrichelt) */
+.st.entry .bx{stroke-dasharray:5 5;fill:rgba(255,255,255,.014)}
+.st.entry .ti{font-size:15px}
+.st.entry .chip-bx{fill:rgba(236,234,228,.05);stroke:var(--line)}
+.st.entry .chip-tx{fill:var(--soft)}
+.st.dim{opacity:.32}
+
+/* detail panel */
+.panel{position:absolute;top:0;right:0;height:100%;width:min(420px,86%);z-index:8;
+  background:rgba(12,12,14,.94);backdrop-filter:blur(16px);border-left:1px solid var(--card-bd);
+  transform:translateX(101%);transition:transform .52s var(--ease);
+  display:flex;flex-direction:column;overflow:hidden}
+.panel.open{transform:translateX(0)}
+.panel-h{padding:22px 24px 16px;border-bottom:1px solid var(--line)}
+.panel-h .pn{font:700 12px var(--font);color:var(--accent);letter-spacing:.04em}
+.panel-h .pt{font:800 23px var(--font);letter-spacing:-.02em;margin:7px 0 0;line-height:1.1}
+.panel-h .pd{font-size:13.5px;color:var(--soft);margin:9px 0 0;line-height:1.5}
+.panel-x{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:8px;border:1px solid var(--line);
+  background:transparent;color:var(--muted);font-size:17px;cursor:pointer;transition:.18s;display:flex;align-items:center;justify-content:center}
+.panel-x:hover{color:var(--ink);border-color:var(--ink)}
+.panel-b{padding:18px 24px 26px;overflow-y:auto;flex:1}
+.panel-b .sec{font:700 10.5px var(--font);color:var(--muted);letter-spacing:.13em;text-transform:uppercase;margin:0 0 12px}
+.sk-card{display:block;border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:0 0 9px;transition:.18s}
+.sk-card:hover{border-color:var(--accent);background:var(--accent-soft)}
+.sk-card .skn{font:700 13.5px var(--mono);color:var(--ink)}
+.sk-card .skn .pre{color:var(--muted);font-weight:500}
+.sk-card .skd{font-size:12.5px;color:var(--soft);margin:4px 0 0;line-height:1.5}
+.sk-none{font-size:13px;color:var(--muted);font-style:italic;border:1px dashed var(--line);border-radius:11px;padding:13px 15px}
+.trap{margin:20px 0 0;border:1px solid rgba(52,208,88,.22);background:rgba(52,208,88,.06);border-radius:11px;padding:12px 15px}
+.trap .tl{font:700 11px var(--font);color:var(--lime);letter-spacing:.06em;text-transform:uppercase}
+.trap p{margin:6px 0 0;font-size:13px;color:var(--soft);line-height:1.55}
+
+/* ausklappbare skill-karte (klick zeigt detail) */
+.sk-card{cursor:pointer}
+.sk-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.sk-tog{flex:none;font-size:19px;line-height:1;color:var(--muted);transition:transform .3s var(--ease),color .2s;margin-top:-1px}
+.sk-card:hover .sk-tog{color:var(--accent)}
+.sk-card.exp .sk-tog{transform:rotate(45deg);color:var(--accent)}
+.sk-more{max-height:0;opacity:0;overflow:hidden;transition:max-height .42s var(--ease),opacity .3s var(--ease),margin .42s var(--ease)}
+.sk-card.exp .sk-more{max-height:240px;opacity:1;margin-top:11px}
+.sk-mlab{font:700 10px var(--font);color:var(--lime);letter-spacing:.05em;text-transform:uppercase;margin:0 0 5px}
+.sk-more p{margin:0;font-size:12.5px;line-height:1.55;color:var(--soft)}
+
+/* gestaffeltes einblenden der panel-inhalte von rechts */
+@keyframes revIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.panel.show .pn,.panel.show .pt,.panel.show .pd,.panel.show .sec,.panel.show .sk-card,.panel.show .sk-none,.panel.show .trap{
+  animation:revIn .5s var(--ease) both;animation-delay:var(--d,0s)}
+.panel.show .pn{--d:.05s}.panel.show .pt{--d:.11s}.panel.show .pd{--d:.18s}.panel.show .sec{--d:.25s}
+@media(prefers-reduced-motion:reduce){.panel.show .pn,.panel.show .pt,.panel.show .pd,.panel.show .sec,.panel.show .sk-card,.panel.show .sk-none,.panel.show .trap{animation:none}}
+
+@media(max-width:760px){.hint{display:none}.ovl-tl .lede{display:none}}
+@media(max-width:560px){.ovl-bl .lg{display:none}}
+</style>
+</head>
+<body>
+
+<nav class="gnav"><div class="gnav-in">
+  <a class="brand" href="index.html">ADMKRS<span class="mk">·</span>SUITE<span class="ver">v1.13.0</span></a>
+  <div class="gnav-links">
+    <a href="index.html">Guide</a>
+    <a href="flow.html" class="on">Ablauf</a>
+    <a href="prozess.html">Prozess</a>
+    <a href="styles.html">Ad-Styles</a>
+  </div>
+  <a class="gnav-cta" href="index.html#start">Suite aktivieren →</a>
+</div></nav>
+
+<div class="stagewrap">
+  <div class="stage" id="stage">
+    <svg id="map" viewBox="0 0 2178 540" role="img" aria-label="Interaktive Prozess-Map der ADMKRS Creative Suite">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+      <g id="cam">
+        <g id="zones"></g>
+        <g id="links"></g>
+        <g id="nodes"></g>
+      </g>
+    </svg>
+
+    <div class="ovl ovl-tl">
+      <div class="eyebrow">Der ganze Prozess auf einen Blick</div>
+      <h1>Eine Linie, <em>acht Stationen</em>, ein Kreislauf.</h1>
+      <p class="lede">Von links nach rechts durch die Suite, in drei Phasen. Am Ende dreht die Linie zurück: jedes Ergebnis startet die nächste, bessere Runde.</p>
+    </div>
+
+    <div class="ovl ovl-bl">
+      <div class="lg">
+        <span><i style="background:var(--accent)"></i>Skill greift hier</span>
+        <span><i style="background:rgba(236,234,228,.3)"></i>Mensch · kein Skill</span>
+        <span><i style="background:transparent;border:1px dashed var(--muted)"></i>einmalig (Neukunde)</span>
+        <span><i class="ln"></i>Flywheel-Loop</span>
+      </div>
+      <a href="prozess.html">Tiefer rein: der Prozess Schritt für Schritt →</a>
+    </div>
+
+    <div class="ctrls">
+      <button id="zout" aria-label="rauszoomen">−</button>
+      <button id="zin" aria-label="reinzoomen">+</button>
+      <button id="zreset" aria-label="zurücksetzen">⟳</button>
+    </div>
+    <div class="hint">Ziehen <b>=</b> verschieben · Scrollen <b>=</b> zoomen · Klick <b>=</b> Details</div>
+
+    <aside class="panel" id="panel" aria-live="polite">
+      <button class="panel-x" id="px" aria-label="schließen">✕</button>
+      <div class="panel-h">
+        <div class="pn" id="ppn"></div>
+        <div class="pt" id="ppt"></div>
+        <div class="pd" id="ppd"></div>
+      </div>
+      <div class="panel-b">
+        <div class="sec">Skills, die hier greifen</div>
+        <div id="pskills"></div>
+        <div class="trap"><div class="tl">Typische Falle</div><p id="ptrap"></p></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const SK = {
+  "creative-strategy-os":"Das Prozess-OS: Research, Diversity, Test-Architektur, Diagnose, Scaling, der Dirigent.",
+  "creative-briefing":"Schreibt die Briefings (Hooks, Konzepte, Storyboards) als docx, die Engine.",
+  "static-briefing":"Format-Tür: Static- & Carousel-Ads.",
+  "motion-ad-briefing":"Format-Tür: Motion Ads, VO-First.",
+  "video-ad-briefing":"Format-Tür: gedrehte Video-Ads (Talking-Head, VSL, Demo).",
+  "ugc-briefing":"Komplettes UGC-Creator-Briefing: Hooks, drehfertige Scripts, Scroll-Breaker.",
+  "ugc-creator-ops":"Creator sourcen, Rechte, Partnership-Ads, EU-Kennzeichnung.",
+  "offer-promo-strategy":"Offers margenbewusst designen (Break-even-Math, Cadence).",
+  "google-cross-channel":"Creatives für Demand Gen / PMax / YouTube mit exakten Specs.",
+  "creative-teardown":"Gewinner-Ads zerlegen, Meta Ad Library lesen, Swipe-File bauen.",
+  "performance-reporting":"Reports mit Learnings: welche Hooks/Angles/Formate gewinnen.",
+  "landing-page-cro":"Landingpage auf Conversion: Message-Match, Speed, Checkout-Friction.",
+  "ad-compliance-check":"Rechtliches Gate: Meta-Standards 2026 + EU/DACH, vor Launch.",
+  "creative-verifier":"Abnahme-Gate: fertige Creatives gegen Briefing + Handwerk prüfen.",
+  "pitch-teardown":"Neukunden über audit-/teardown-geführtes Selling gewinnen.",
+  "ad-psychology":"Kaufpsychologie: Messy-Middle-Modell + 6 Kauf-Biases mit Effektstärken, übersetzt in Angles und On-Creative-Elemente.",
+  "localization-briefing":"Übersetzt ein freigegebenes Briefing sinngemäß + native in andere Sprachen (NL/FR/…), Glossar bindend."
+};
+// kurz-detail je skill: was ihn stark macht (klick auf die karte, geht über den einzeiler hinaus)
+const SKD = {
+  "creative-strategy-os":"Der rote Faden über alle Skills: er sorgt dafür, dass jeder Test eine Hypothese hat und Learnings ins System zurückfließen, statt im Account zu versickern.",
+  "creative-briefing":"Übersetzt Strategie in eine Bau-Anweisung, die ein Designer ohne Rückfrage umsetzt: Hook, Subline, USPs, alles final entschieden.",
+  "static-briefing":"Scopt die Engine auf Static und Carousel und hält den Text minimal: der Hook trägt, der Rest kommt nur drauf, wenn er einen eigenen Job hat.",
+  "motion-ad-briefing":"VO-First: schreibt das gesprochene Script am Stück, dann mappt das Storyboard die Bilder auf die Beats.",
+  "video-ad-briefing":"Für echte Drehs: Talking-Head, VSL und Demo mit klarer Beat-Struktur und der End-Card als letztem Schritt.",
+  "ugc-briefing":"Drehfertig für Creator: Hooks, Beat-Scripts, Scroll-Breaker. Die Kunden-Strategie steckt als Anhang hinten, ohne den Creator zu stören.",
+  "ugc-creator-ops":"Die Logistik um UGC: Creator finden, Nutzungsrechte, Partnership-Ads und die Werbe-Kennzeichnung nach EU/DACH.",
+  "offer-promo-strategy":"Rechnet die Aktion durch (Break-even, Cadence), bevor sie live geht: Druck erzeugen, ohne die Marge zu verbrennen.",
+  "google-cross-channel":"Nimmt ein Meta-Konzept und macht Demand-Gen-, PMax- und YouTube-Assets daraus, mit den exakten Specs je Fläche.",
+  "creative-teardown":"Liest die Meta Ad Library wie ein Profi: zerlegt Winner in Hook, Angle und Format und baut daraus ein nutzbares Swipe-File.",
+  "performance-reporting":"Trennt Signal von Rauschen: liest Thumbstop, Hold, CTR und CVR gegen die eigene Baseline und zieht klare Hook- und Angle-Learnings.",
+  "landing-page-cro":"Sorgt dafür, dass die Seite hinter der Ad dasselbe Versprechen einlöst: Message-Match, Speed, weniger Checkout-Friction.",
+  "ad-compliance-check":"Das Policy-Sicherheitsnetz: prüft gegen Meta-Standards 2026 und EU/DACH-Recht, bevor ein Reject die Kampagne ausbremst.",
+  "creative-verifier":"Fängt das tote-aber-korrekte Creative ab: prüft Hook-Wirksamkeit, 49 Designpunkte und Marken-Regeln gegen das Briefing.",
+  "pitch-teardown":"Gewinnt Neukunden über einen Audit ihrer laufenden Ads: zeigt die Geld-Lücke konkret, statt Strategie zu versprechen.",
+  "ad-psychology":"Erklärt, WARUM Menschen kaufen: Explore- vs. Evaluate-Modus (falsches Signal im falschen Modus wirft dich raus) und welcher Bias in welcher Kategorie wirklich zieht, mit Evidenz aus 310.000 simulierten Käufen statt Bauchgefühl.",
+  "localization-briefing":"Struktur englisch für internationale Teams, Copy DE → native Übersetzung (nie wörtlich). Motion im 2-Spalten-Format (On-Screen / Voice-Over). Hooks und Wortspiele werden neu verankert, nicht übersetzt."
+};
+
+/* ---- geometrie ---- */
+const X0=56, STEP=266, NW=204, NH=132, CY=300, NY=CY-NH/2;   // schiene, mittig auf y=300 (gap 62, breitere nodes)
+const VB=2178, VBH=540;
+
+/* ---- die 8 stationen, in schienen-reihenfolge ---- */
+const RAIL=[
+  {id:"audit", num:"1", title:"Audit", sub:"Wo klemmt's wirklich?",
+   skills:["creative-teardown","performance-reporting","creative-strategy-os"],
+   desc:"Zugänge + Zahlen holen, bestehende Creatives zerlegen, den Bottleneck finden: Scroll-Stop, Verlangen, Vertrauen oder Conversion? Der Bottleneck priorisiert die ersten Tests.",
+   trap:"Ohne Unit Economics testen, dann ist „Winner\" nur Meinung."},
+
+  {id:"research", num:"2", title:"Research", sub:"Echte Kundensprache",
+   skills:["creative-strategy-os","ad-psychology"],
+   desc:"Voice-of-Customer-Mining: Reviews, Reddit, Kommentare, Sales-Calls. Daraus Personas (Lebenssituation + Beziehung zum Problem) und zitierte Pains. Angles werden gefunden, nicht erfunden.",
+   trap:"Angles erfinden statt aus echter Sprache ziehen, klingt sofort nach Marketing."},
+
+  {id:"strategie", num:"3", title:"Strategie", sub:"Persona × Angle × Format",
+   skills:["creative-strategy-os","ad-psychology"],
+   desc:"Die Creative-Map: jede Zelle ein Test. Echte Diversität über Angle/Persona/Format (Andromeda belohnt verschiedene Konzepte, nicht 30 Klone). Test-Architektur + Kill/Scale-Regeln vorab.",
+   trap:"Klone statt Konzepte, Meta drosselt, das Budget zersplittert."},
+
+  {id:"briefing", num:"4", title:"Briefing", sub:"Konzept wird Bauplan",
+   skills:["creative-briefing","static-briefing","motion-ad-briefing","video-ad-briefing","ugc-briefing","offer-promo-strategy","google-cross-channel","ugc-creator-ops","localization-briefing"],
+   desc:"Aus den Map-Zeilen werden schlanke, build-fertige Briefings: Hook, Subline, USPs, CTA, alles Fette landet aufs Creative. Format-Türen scopen die Engine auf Static/Motion/Video/UGC; Offer & Google docken an. Für andere Märkte lokalisiert localization-briefing das freigegebene Briefing native in die Zielsprache.",
+   trap:"Das Briefing mit Strategie-Prosa überladen, der Designer braucht eine Bau-Anweisung, kein Essay."},
+
+  {id:"production", num:"5", title:"Produktion", sub:"Der Mensch baut", people:1,
+   skills:[],
+   desc:"Hier baut der Mensch. Kein Skill, aber das Briefing ist so geschrieben, dass Designer, Editor oder Creator ohne Rückfrage loslegen können. Bei ~80 % shippen, dann iterieren.",
+   trap:"Auf 100 % polieren, bevor getestet wurde, Tempo schlägt Perfektion in der Testphase."},
+
+  {id:"verify", num:"6", title:"Abnahme", sub:"Treue, Handwerk, Recht",
+   skills:["creative-verifier","ad-compliance-check"],
+   desc:"Zwei Tore vor dem Launch: der Verifier prüft das fertige Creative gegen das Briefing + Handwerk (Hook-Wirksamkeit, 49-Punkte-Designcheck, Marken-Regeln), danach das Compliance-Gate Recht/Policy. Beide grün → live.",
+   trap:"Eine wörtlich korrekte, aber tote Hook durchwinken, der Verifier prüft Wirksamkeit, nicht nur Treue."},
+
+  {id:"launch", num:"7", title:"Launch", sub:"Live schalten, LP matchen",
+   skills:["landing-page-cro"],
+   desc:"Ab in die Testing-Kampagne (ABO, new-vs-new). Parallel muss die Landingpage den Hook der Ad spiegeln, der #1-Conversion-Hebel nach dem Klick.",
+   trap:"Top-Ad auf eine generische PDP schicken, der mentale Vertrag aus der Ad wird gebrochen, CVR bricht ein."},
+
+  {id:"measure", num:"8", title:"Skalieren", sub:"Lesen, verdoppeln, lernen",
+   skills:["performance-reporting","creative-strategy-os"],
+   desc:"Diagnose über Storytelling-KPIs (Thumbstop/Hold/CTR/CVR) gegen die eigene Baseline. Gewinner iterieren & skalieren, Verlierer killen. Learnings ins Learned-Log, das macht die Brand unkopierbar.",
+   trap:"Zu früh urteilen oder gegen Branchen-Benchmarks lesen statt gegen die eigenen Top-Performer."}
+];
+RAIL.forEach((p,i)=>{ p.x=X0+STEP*i; p.y=NY; p.w=NW; p.h=NH; });
+
+/* ---- einmaliger einstieg, sitzt über station 1 ---- */
+const PITCH={id:"pitch", entry:1, num:"·", x:X0, y:48, w:NW, h:106,
+  title:"Neukunde gewinnen", sub:"Audit-geführtes Selling",
+  skills:["pitch-teardown"],
+  desc:"Bevor der Kreislauf startet: die Brand überhaupt gewinnen. Über einen Audit/Teardown der bestehenden Ads zeigen, wo Geld liegt, statt Strategie zu pitchen, bevor man die Lücke kennt.",
+  trap:"Lösung pitchen, bevor die echte Schwachstelle des Accounts auf dem Tisch liegt. Käufer 2026 riechen das."};
+
+const ALL=[PITCH,...RAIL];
+const byId=Object.fromEntries(ALL.map(p=>[p.id,p]));
+
+/* ---- phasen-zonen (hintergrund) ---- */
+const ZONES=[
+  {lab:"Strategie", n:"Phase 1", ids:["audit","research","strategie"], fill:"rgba(198,255,58,.045)"},
+  {lab:"Umsetzung", n:"Phase 2", ids:["briefing","production","verify"], fill:"rgba(52,208,88,.05)"},
+  {lab:"Launch & Lernen", n:"Phase 3", ids:["launch","measure"], fill:"rgba(236,234,228,.035)"}
+];
+
+const NS="http://www.w3.org/2000/svg";
+const el=(n,a={})=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const cx=p=>p.x+p.w/2, cy=p=>p.y+p.h/2;
+const zones=document.getElementById("zones"), nodes=document.getElementById("nodes"), links=document.getElementById("links");
+
+/* ---- zonen + labels ---- */
+const PAD=18, ZTOP=222, ZH=156;
+ZONES.forEach(z=>{
+  const ns=z.ids.map(id=>byId[id]);
+  const left=Math.min(...ns.map(p=>p.x))-PAD, right=Math.max(...ns.map(p=>p.x+p.w))+PAD;
+  zones.appendChild(el("rect",{x:left,y:ZTOP,width:right-left,height:ZH,rx:20,fill:z.fill}));
+  const mid=(left+right)/2;
+  const t1=el("text",{x:mid,y:ZTOP-22,class:"zonenum","text-anchor":"middle"});t1.textContent=z.n;zones.appendChild(t1);
+  const t2=el("text",{x:mid,y:ZTOP-7,class:"zonelab","text-anchor":"middle",fill:"var(--soft)"});t2.textContent=z.lab;zones.appendChild(t2);
+});
+
+/* ---- verbinder: einstieg -> station 1 (vertikal, gestrichelt) ---- */
+const pe=el("path",{d:`M ${cx(PITCH)} ${PITCH.y+PITCH.h} L ${cx(PITCH)} ${NY}`,class:"lnk entry","marker-end":"url(#arr)"});
+pe.dataset.pair="pitch_audit";links.appendChild(pe);
+
+/* ---- verbinder: schiene links->rechts ---- */
+for(let i=0;i<RAIL.length-1;i++){
+  const A=RAIL[i],B=RAIL[i+1];
+  const e=el("path",{d:`M ${A.x+A.w} ${CY} L ${B.x} ${CY}`,class:"lnk","marker-end":"url(#arr)"});
+  e.dataset.pair=A.id+"_"+B.id;links.appendChild(e);
+}
+
+/* ---- flywheel-loop: measure -> audit, eine kurve unten zurück ---- */
+const M=byId.measure, Au=byId.audit, LY=456, R=20;
+const loopD=`M ${cx(M)} ${M.y+M.h} L ${cx(M)} ${LY-R} Q ${cx(M)} ${LY} ${cx(M)-R} ${LY} `+
+            `L ${cx(Au)+R} ${LY} Q ${cx(Au)} ${LY} ${cx(Au)} ${LY-R} L ${cx(Au)} ${Au.y+Au.h}`;
+const loopEl=el("path",{d:loopD,class:"lnk loop","marker-end":"url(#arr)"});
+loopEl.dataset.pair="measure_audit";links.appendChild(loopEl);
+const ll=el("text",{x:(cx(M)+cx(Au))/2,y:LY+22,class:"looplab","text-anchor":"middle"});
+ll.textContent="↻ Flywheel · jede Runde macht das nächste Creative besser";links.appendChild(ll);
+
+/* ---- nodes ---- */
+ALL.forEach((p,idx)=>{
+  const g=el("g",{class:"st "+(p.entry?"entry ":"")+(p.people?"people ":""),tabindex:"0",role:"button","aria-label":p.title});
+  g.dataset.id=p.id;
+  g.appendChild(el("rect",{class:"bx",x:p.x,y:p.y,width:p.w,height:p.h,rx:15}));
+  g.appendChild(el("rect",{class:"glow",x:p.x,y:p.y,width:p.w,height:p.h,rx:15}));
+  const T=(cls,x,y,t,anchor)=>{const e=el("text",{class:cls,x,y});if(anchor)e.setAttribute("text-anchor",anchor);e.textContent=t;g.appendChild(e);};
+
+  if(p.entry){
+    T("ti",p.x+22,p.y+36,p.title);
+    T("sub",p.x+22,p.y+62,p.sub);
+    chip(g,p,p.x+22,p.y+p.h-30,"einmalig davor");
+  }else{
+    // nummer-badge
+    g.appendChild(el("circle",{class:"badge",cx:p.x+28,cy:p.y+30,r:14}));
+    T("bnum",p.x+28,p.y+34,p.num);
+    T("ti",p.x+52,p.y+35,p.title);
+    T("sub",p.x+22,p.y+66,p.sub);
+    const n=p.skills.length;
+    const label=n===0?"Mensch · kein Skill":(n+" Skill"+(n>1?"s":""));
+    chip(g,p,p.x+20,p.y+p.h-32,label);
+  }
+  g.addEventListener("click",()=>select(p.id));
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();select(p.id);}});
+  nodes.appendChild(g);
+});
+
+function chip(g,p,x,y,text){
+  const w=text.length*6.2+22;
+  g.appendChild(el("rect",{class:"chip-bx",x,y,width:w,height:21,rx:10}));
+  const t=el("text",{class:"chip-tx",x:x+11,y:y+14.5});t.textContent=text;g.appendChild(t);
+}
+
+/* ---- kamera (pan / zoom) ---- */
+const svg=document.getElementById("map"), cam=document.getElementById("cam"), stage=document.getElementById("stage");
+let view={x:0,y:0,k:1};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const apply=()=>cam.setAttribute("transform",`translate(${view.x} ${view.y}) scale(${view.k})`);
+function vp(e){const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse());}
+function zoomAt(px,py,nk){nk=clamp(nk,0.6,2.8);const wx=(px-view.x)/view.k,wy=(py-view.y)/view.k;view.k=nk;view.x=px-wx*nk;view.y=py-wy*nk;apply();}
+svg.addEventListener("wheel",e=>{e.preventDefault();const p=vp(e);zoomAt(p.x,p.y,view.k*(e.deltaY<0?1.12:0.89));},{passive:false});
+
+let drag=null;
+stage.addEventListener("pointerdown",e=>{if(e.target.closest(".st")||e.target.closest(".panel")||e.target.closest(".ctrls"))return;drag={x:e.clientX,y:e.clientY,vx:view.x,vy:view.y};stage.classList.add("drag");stage.setPointerCapture(e.pointerId);});
+stage.addEventListener("pointermove",e=>{if(!drag)return;const s=svg.getScreenCTM();view.x=drag.vx+(e.clientX-drag.x)/s.a;view.y=drag.vy+(e.clientY-drag.y)/s.d;apply();});
+const endDrag=()=>{drag=null;stage.classList.remove("drag");};
+stage.addEventListener("pointerup",endDrag); stage.addEventListener("pointercancel",endDrag); stage.addEventListener("pointerleave",endDrag);
+
+let raf=null;
+function tween(t){cancelAnimationFrame(raf);const s={...view},t0=performance.now(),dur=560;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){view={...t};apply();return;}
+  (function step(now){const u=clamp((now-t0)/dur,0,1),e=u>=1?1:1-Math.pow(2,-10*u);
+    view.x=s.x+(t.x-s.x)*e;view.y=s.y+(t.y-s.y)*e;view.k=s.k+(t.k-s.k)*e;apply();
+    if(u<1)raf=requestAnimationFrame(step);})(t0);}
+// meet-basis: scale + zentrier-offset, mit dem die SVG die viewBox in die stage legt
+function meet(){const r=stage.getBoundingClientRect();const s0=Math.min(r.width/VB,r.height/VBH);
+  return {r,s0,offX:(r.width-VB*s0)/2,offY:(r.height-VBH*s0)/2};}
+// view so setzen, dass content-punkt (nx,ny) auf screen-punkt (tsx,tsy) bei zoom k landet
+function place(nx,ny,tsx,tsy,k){const m=meet();view.k=k;
+  view.x=(tsx-m.offX)/m.s0-nx*k; view.y=(tsy-m.offY)/m.s0-ny*k;}
+
+// klick: station in den freien bereich neben dem panel zentrieren (kein clipping)
+function focusNode(p){const m=meet();
+  const panelW=Math.min(420,m.r.width*0.86);
+  const tsx = m.r.width<640 ? m.r.width/2 : (m.r.width-panelW)/2;
+  const k=1.28; const s={...view};
+  place(cx(p),cy(p),tsx,m.r.height/2,k); const t={...view}; view=s; tween(t);}
+
+// fit: ganze map in die sichere zone (oben titel-overlay, unten legende ausgespart), zentriert
+const INS={t:150,b:78,x:30};
+function fitTarget(){
+  const m=meet(),r=m.r;
+  const availW=Math.max(60,r.width-2*INS.x), availH=Math.max(60,r.height-INS.t-INS.b);
+  const S=Math.min(availW/VB, availH/VBH), k=S/m.s0;
+  const csx=INS.x+availW/2, csy=INS.t+availH/2;
+  return {k, x:(csx-m.offX)/m.s0-(VB/2)*k, y:(csy-m.offY)/m.s0-(VBH/2)*k};
+}
+function fitView(){view=fitTarget();apply();}
+function reset(){tween(fitTarget());}
+const centerVP=()=>{const r=stage.getBoundingClientRect();return vp({clientX:r.left+r.width/2,clientY:r.top+r.height/2});};
+document.getElementById("zin").onclick=()=>{const c=centerVP();zoomAt(c.x,c.y,view.k*1.25);};
+document.getElementById("zout").onclick=()=>{const c=centerVP();zoomAt(c.x,c.y,view.k*0.8);};
+document.getElementById("zreset").onclick=()=>{closePanel();reset();};
+svg.addEventListener("dblclick",()=>{closePanel();reset();});
+
+requestAnimationFrame(fitView);
+let rz=null;
+addEventListener("resize",()=>{cancelAnimationFrame(rz);rz=requestAnimationFrame(fitView);});
+
+/* ---- selection / panel ---- */
+const panel=document.getElementById("panel");
+function select(id){
+  const p=byId[id];
+  document.querySelectorAll(".st").forEach(g=>{const on=g.dataset.id===id;g.classList.toggle("sel",on);g.classList.toggle("dim",!on);});
+  links.querySelectorAll(".lnk").forEach(l=>{const pair=(l.dataset.pair||"").split("_");const hot=pair.includes(id);l.classList.toggle("hot",hot);l.classList.toggle("faded",!hot);});
+  document.getElementById("ppn").textContent=p.entry?"Einmalig · vor dem Kreislauf":("Station "+p.num+" von 8");
+  document.getElementById("ppt").textContent=p.title;
+  document.getElementById("ppd").textContent=p.desc;
+  const sk=document.getElementById("pskills");sk.innerHTML="";
+  const base=0.30;
+  if(p.skills.length===0){
+    const n=document.createElement("div");n.className="sk-none";n.style.setProperty("--d",base+"s");
+    n.textContent="Kein Skill, hier arbeitet der Mensch. Das Briefing aus Station 4 ist die Bau-Anweisung.";
+    sk.appendChild(n);
+  } else p.skills.forEach((s,i)=>{
+    const c=document.createElement("div");c.className="sk-card";c.tabIndex=0;c.setAttribute("role","button");
+    c.style.setProperty("--d",(base+i*0.07).toFixed(2)+"s");
+    c.innerHTML=`<div class="sk-top"><div class="skn"><span class="pre">admkrs-cs-</span>${s}</div><span class="sk-tog">+</span></div>`
+      +`<div class="skd">${SK[s]||""}</div>`
+      +`<div class="sk-more"><div class="sk-mlab">Was ihn stark macht</div><p>${SKD[s]||""}</p></div>`;
+    const tog=()=>c.classList.toggle("exp");
+    c.addEventListener("click",tog);
+    c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();tog();}});
+    sk.appendChild(c);
+  });
+  const trapEl=document.querySelector(".trap");
+  trapEl.style.setProperty("--d",(base+Math.max(1,p.skills.length)*0.07+0.06).toFixed(2)+"s");
+  document.getElementById("ptrap").textContent=p.trap;
+  panel.classList.add("open");
+  panel.classList.remove("show"); void panel.offsetWidth; panel.classList.add("show");   // reveal neu auslösen
+  focusNode(p);
+}
+function closePanel(){panel.classList.remove("open","show");document.querySelectorAll(".st").forEach(g=>g.classList.remove("sel","dim"));links.querySelectorAll(".lnk").forEach(l=>l.classList.remove("hot","faded"));}
+document.getElementById("px").onclick=closePanel;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePanel();});
+
+</script>
+</body>
+</html>
