@@ -29,5 +29,5 @@ Vorlage fuer eine interne Team-Website hinter einem Google-Login (nur @admkrs.co
 ## Regeln
 
 - Kein Em-Dash-Zeichen in Texten (ADMKRS-Hausregel), keine echten Kundennamen oder Kundendaten in diesem Repo.
-- Repo bleibt privat.
+- Dieses Template-Repo ist nur voruebergehend oeffentlich und wird nach wenigen Tagen geloescht: jetzt klonen. Dein eigener Ableger bleibt privat.
 - `.env.local` und echte Keys niemals committen.
