@@ -20,7 +20,7 @@ Vorlage fuer eine interne Team-Website hinter einem Google-Login (nur @admkrs.co
 
 ## Setup (einmalig, ca. 15 Minuten)
 
-1. **Env:** `.env.example` zu `.env.local` kopieren, Werte eintragen. Empfehlung: dasselbe Supabase-Projekt wie Hub/Suite nutzen, dann ist Google-OAuth schon fertig konfiguriert und es gibt nichts in der Google Cloud Console zu tun.
+1. **Env:** `.env.example` zu `.env.local` kopieren, Werte eintragen. Eigenes Supabase-Projekt anlegen (kostenloser Tier reicht) und dort unter Authentication -> Providers Google aktivieren (braucht einmalig einen OAuth-Client in der Google Cloud Console; die Supabase-Doku verlinkt die Schritte direkt im Provider-Dialog). `ALLOWED_EMAIL_DOMAIN` auf die eigene Firmen-Domain stellen. (ADMKRS-intern geht alternativ das geteilte Supabase-Projekt von Hub/Suite, Werte von Burak.)
 2. **Install & lokal testen:** `npm install`, dann `npm run dev`. Ohne Login muss jede Route auf `/auth/login` umleiten.
 3. **Vercel:** `vercel link` (neues Projekt), unter Settings -> Environment Variables dieselben drei Variablen setzen, dann `vercel deploy --prod`.
 4. **Supabase Redirect-URLs (NICHT VERGESSEN, haeufigster Fehler):** Im Supabase-Dashboard unter Authentication -> URL Configuration zwei Eintraege ergaenzen: `https://<dein-projekt>.vercel.app/**` und, falls Custom Domain, `https://<domain>/**`. Ohne diese Eintraege faellt Supabase nach dem Google-Login auf die projektweite Site-URL zurueck und du landest auf einer ANDEREN App (ist uns real passiert). Nichts Bestehendes entfernen, die Liste ist additiv und wird von Hub, Suite und weiteren Apps geteilt.
